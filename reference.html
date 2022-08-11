@@ -1,0 +1,572 @@
+﻿
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/toc.css" rel="stylesheet" type="text/css"  />
+	<link href="css/theme.css" rel="stylesheet" type="text/css"  />
+	<title>Reference - Relational Algebra Simulator</title>
+</head>
+<body>
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">RelAlgSim</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav en">
+						<li><a href="index.html" class="i18n-menu-home">Home</a></li>
+						<li class="active"><a href="#" class="i18n-menu-reference">Reference</a></li>
+						<li><a href="about.html" class="i18n-menu-about">About</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container-fluid -->
+		</nav>
+		<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h4>Table of contents</h4></div>
+				<div id="toc" class="panel-body">
+				</div>
+			</div>
+
+			<div class="page-header">
+				<h1 id="input-data">Input data <small>How to set the source relations</small></h1>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="source-relations">Source relations</h2></div>
+				<div class="panel-body">
+					<p>The "Source relations" block contain all the relations you want to use for your query.
+						To add your own relations to the list, use the green-button relation element:</p>
+					<div id="userDefinedRelations" class="row">
+						<div id="addRelation" class="col-lg-3 col-md-4 relation">
+							<div class="input-group">
+								<input type="text" id="relationnew_name" class="span form-control relationName" placeholder="Relation name" data-toggle="tooltip" data-placement="top" title="Set the name of the relation" />
+								<span class="input-group-btn">
+									<button type="button" id="relationnew_add" class="btn btn-success btn-default relationButton" data-toggle="tooltip" data-placement="top" title="Finally press this"><strong>+</strong></button>
+								</span>
+							</div>
+							<textarea id="relationnew_data" class="form-control relationRaw" placeholder="Data table" rows="3" data-toggle="tooltip" data-placement="bottom" title="Set the body of the relation"></textarea>
+						</div>
+						<div class="col-lg-3 col-md-4 relation relationBlock">
+							<p>If you fill out both the name and the data and press the green <em>add</em> button, then the relation gets appended to the list of source relations.
+								And it will look like this:
+							</p>
+						</div>
+						<div id="relation1" class="col-lg-3 col-md-4 relation relationBlock">
+							<div class="input-group">
+							<input type="text" id="relation1_name" class="span form-control relationName" placeholder="Relation name" value="R1" data-toggle="tooltip" data-placement="top" title="Change the name" />
+							<span class="input-group-btn"> \
+							<button type="button" id="relation1_save" class="btn btn-info btn-default relationButton saveRelation" data-toggle="tooltip" data-placement="top" title="Save this relation" data-id="1"><span class=" glyphicon glyphicon-floppy-save"></span></button>
+							<button type="button" id="relation1_del" class="btn btn-danger btn-default relationButton deleteRelation" data-toggle="tooltip" data-placement="top" title="Press to delete"><strong>x</strong></button>
+							</span>
+							</div>
+							<div id="relation1_data" class="panel panel-default relationData">
+								<table id="relation1_table" class="table table-hover relationTable" data-toggle="tooltip" data-placement="bottom" title="Double-click to edit">
+									<thead>
+										<tr><th>name</th><th>age</th></tr>
+									</thead>
+									<tbody>
+										<tr><td>Anne</th><th>19</th></tr>
+										<tr><td>Bob</th><th>20</th></tr>
+										<tr><td>Claire</th><th>21</th></tr>
+									</tbody>
+								</table>
+								<textarea id="relation1_raw" class="form-control relationRaw" placeholder="Data table" rows="3" data-delim=";">name;age
+Anne;19
+Bob;20
+Claire;21</textarea>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 relation relationBlock">
+							<p>If you double click on the table rows, then you enter editing mode.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="fill-relation">Fill in the name of the relation</h2></div>
+				<div class="panel-body">
+					<p>There are certain rules when setting your own source relations:</p>
+					<ul>
+						<li>Every relation must have a name.</li>
+						<li>The relation name can only contain alfanumeric characters like A-Z, a-z or numbers, but it must start with a letter.</li>
+						<li>Relation names must be unique.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="fill-row">Fill in the rows of the relation</h2></div>
+				<div class="panel-body">
+					<p>The data section can be either a CSV or a TSV (tab separated values) formatted text. 
+					The first line of text describes the attributes of the relations, while the rest of the lines represent the rows.</p>
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>CSV example</strong></div>
+						<div class="panel-body">
+<pre>
+<strong>name;age</strong>
+Anne;19
+Bob;20
+Clair;21</pre>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>TSV example</strong></div>
+						<div class="panel-body">
+<pre>
+<strong>name	age</strong>
+Anne	19
+Bob	20
+Clair	21</pre>
+						</div>
+					</div>
+					<p>Although the TSV format looks more pleasing to the eye, typing tabs in textfields can turn out to be quite a hassle.
+						TSV is useful mostly if you want to copy-paste the data from somewhere else, otherwise CSV is more practical.</p>
+					<p>Just like before, there are certain rules to filling out the data section:</p>
+					<h4>Generally the data</h4>
+					<ul>
+						<li>The data should be valid CSV or TSV formatted</li>
+							<ul>
+								<li>There is not supposed to be any delimiter at the end of the line.
+								Although the parser ignores this error and processes the relation anyway.</li>
+								<li>There is not supposed to be a newline after the last line, as it would
+								indicate a new, but empty row. The parser ignores the last row if it is empty.</li>
+							</ul>
+						<li>The first row of data is required, and it defines the attributes.</li>
+						<li>The rest of the rows are optional, but they define the rows of the relation.</li>
+					</ul>
+					<h4>The attributes</h4>
+					<ul>
+						<li>Attribute names can only contain alfanumeric characters like A-Z, a-z or numbers, but they must start with a letter.</li>
+						<li>Attribute names must be unique within the relation.</li>
+					</ul>
+					<h4>The rows</h4>
+					<ul>
+						<li>The number of values defined in the row must match the number of attributes in the relation.
+							The only exception to this is the trailing delimiter, because the parser ignores it as sloppy but correct.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="save-relation">Save or load relations</h2></div>
+				<div class="panel-body">
+					<p>Setting up relations every time you want to use them, every time you revisit the page can be annoying. After adding your relation,
+						you can use the <button type="button" id="relation1_save" class="btn btn-info btn-default"><span class=" glyphicon glyphicon-floppy-save"></span></button> button to save it to the browsers long term storage ( - not cookie!).
+						This button will be available on your relations' headers.
+					</p>
+					<p>To load a previously saved relation, you need to look for the "Source relations" panel. On its header, you will find a 
+						<button type="button" id="relation1_save" class="btn btn-info btn-default"><span class=" glyphicon glyphicon-floppy-open"></span></button> button. Clicking it will open a dialog, where you can load a relation, or delete it from
+						the long term storage ( - still not a cookie!).
+					</p>
+				</div>
+			</div>
+			
+			<div class="page-header">
+				<h1 id="rel-alg-exp">Relational algebraic expression <small>How to work the handles</small></h1>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="grammar-query">Writing and executing the query</h2></div>
+				<div class="panel-body">
+					<p>When your relations are set, it is time to do some relational algebra. The middle section of the site is named just that.
+					Find this block and write your own expression and press Go!</p>
+					<div id="userDefinedQuery" class="row">
+						<div class="col-lg-4 col-md-4">
+							<textarea id="queryCommand" class="form-control" placeholder="Relational algebraic expression" data-toggle="tooltip" data-placement="top" title="Place for the query"></textarea>
+							<button type="button" id="startQuery" class="btn btn-success btn-default col-lg-12 col-md-12" data-toggle="tooltip" data-placement="bottom" title="Start the business">Go!</button>
+						</div>
+					</div>
+					<p>Let's say, you want to check the names in your relation, so you write the following query:<code>PI ( name ; R1 )</code></p>
+					<p>If so, then after pressing 'Go', you will see a new relation appear in the 'Result relation' section, on the bottom third part of the site.</p>
+					<div class="row">
+						<div id="resultBlock" class="col-lg-4 col-md-4">
+							<div class="panel panel-primary">
+								<div class="panel-heading"><strong class="i18n-ui-resrel">Result relation</strong> <button id="addResultRelation" class="btn btn-xs btn-success pull-right" data-toggle="tooltip" data-placement="top" title="Add result as a source relation">+</button></div>
+								<div class="panel-body">
+									<div id="relation0" class="col-lg-6 relation relationBlock">
+										<div id="relation0_data" class="relationData">
+											<table id="relation0_table" class="table table-hover relationTable" data-toggle="tooltip" data-placement="bottom" title="Double click to edit">
+												<thead>
+													<tr><th>name</th></tr>
+												</thead>
+												<tbody>
+													<tr><td>Anne</th></tr>
+													<tr><td>Bob</th></tr>
+													<tr><td>Claire</th></tr>
+												</tbody>
+											</table>
+											<textarea id="relation0_raw" class="form-control relationRaw" placeholder="Data table" rows="3" data-delim=";">name
+Anne
+Bob
+Claire</textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4">
+							<p>Hooray. This is a relation too.</p>
+							<p>Double clicking on the table will switch to edit mode.</p>
+							<p>But if you want to use the results as a source for your next query,
+								then simply press the green + button.</p>
+						</div>
+					</div>
+					<p>Finally, you will notice that a query tree appears in a block named just like that. It shows the graph of the query. 
+						You can drag the picture, and zoom in or out by clicking with left or right mouse button respectively.
+					</p>
+					<p>In the following parts, you will learn more about how to write your own query.</p>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="grammar-intro">Grammar introduction</h2></div>
+				<div class="panel-body">
+					<p>Relational algebra uses operators that are coded by characters that are not available on normal keyboards.
+						To make the writing of relational algebraic expressions possible, two different solutions were implemented.
+						First, a grammar/syntax was created. If you are the type of person, who likes to learn programming/markup languages, you will find
+						that there are easily typable symbols for every tricky operator, like <code>@@</code> can stand for <code><span class="relalgsymbol">&#x27d7;</span></code>.
+					</p>
+					<p>To provide another way, above the editor there is a toolbar with the operator symbols on it. Pressing any of these symbols inserts the symbol into the editor.
+						That way it is possible to write queries that resemble the original algebraic expressions, like <code>R <span class="relalgsymbol">&#x27d7;</span> S</code>.
+					</p>
+					<p>So, there is the new grammar and the click-the-button-get-the-symbol approach. 
+						So in the end typing <code>R @@ S</code> or <code>R <span class="relalgsymbol">&#x27d7;</span> S</code> will do exactly the same.
+					</p>
+					<p>But in relational algebra there are operators that take parameters - usually in subscriptum 
+					(e.g.: <code><span class="relalgsymbol">&#x1D7Bc;</span> <span style="font-size:0.8em; vertical-align:sub">name=Anne</span>( R )</code>). 
+					Currently it is not possible to type subscript texts in the query editor, so for these operators a new grammar to learn.
+					Every operator that takes arguments has a parenthesis after its symbol, as if it was a function. Inside the function there are the parameter and the relation, relations.
+					So, the query mentioned before would look like this in the editor: <code>SIGMA ( name == 'Anne' ; R )</code> or <code>&#x03c3; ( name == 'Anne' ; R )</code>.
+					<p>
+						That pretty much sums up everything you need to know. The intention was to make the grammar tokens resemble the original operators.
+					</p>
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>Grammar example</strong></div>
+						<div class="panel-body">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Operation</th>
+										<th>Classical relational algebraic expression</th>
+										<th>The same expression in the simulator</th>
+									<tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>crossproduct</td>
+										<td>R × S</td>
+										<td>R × S</td>
+									</tr>
+									<tr>
+										<td>natural join</td>
+										<td>R <span class="relalgsymbol">&#x22c8;</span> S</td>
+										<td>R @ S</td>
+									</tr>
+									<tr>
+										<td>full outer join</td>
+										<td>R <span class="relalgsymbol">&#x27d7;</span> S</td>
+										<td>R @@ S</td>
+									</tr>
+									<tr >
+										<td style="vertical-align: middle">selection</td>
+										<td><span class="relalgsymbol" style="font-size:2em;">&#x1D7Bc;</span> <span style="font-size:0.8em; vertical-align:sub">name=Anne</span><span style="font-size:1.5em;">( R )</span></td>
+										<td style="vertical-align: middle">SIGMA ( name == 'Anne' ; R )</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<p>As you can see, some of the operators are the same or quite similar in the grammar, while others had to be changed to make them keyboard friendly.</p>
+					<p>First and foremost: the result of every operation is a relation. That makes nesting possible, and it works exactly like the original algebra.
+						It is also possible to use parenthesis to change the calculation order, because by default there is no precedence order between the operators.
+					</p>
+					<p>The operators can be divided into groups based on their arity, or the number of extra parameters they take.
+						Based on arity, the binary operators always look like this:
+					</p>
+					<p><code>relation-name1</code> <code>operator</code> <code>relation-name2</code></p>
+					<p>While unary operators always look like this:</p>
+					<p><code>operator</code> ( <code>parameter</code> ; <code>relation-name</code> )</p>
+					<p>The only exception to these is the <span class="relalgsymbol">&#x03F4;</span>-join, which is a binary operation with parameters - and that makes it unique:</p>
+					<p><code>THETA_JOIN</code> ( <code>condition</code> ; <code>relation-name1</code>,  <code>relation-name2</code> )</p>
+					
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="bin-ops">Binary operations</h2></div>
+				<div class="panel-body">
+					<p>The binary operators are quite simple and self-explanatory.
+						The <span class="relalgsymbol">&#x03F4;</span>-join's <em>conditional</em> is a string of C-like conditional expression. It is discussed to a greater depth in the following block.
+					</p>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Operation</th>
+								<th>Classical relational algebraic expression</th>
+								<th>The same expression in the simulator - with symbols</th>
+								<th>The same expression in the simulator - with typable syntax</th>
+							<tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>crossproduct</td>
+								<td>R × S</td>
+								<td>R × S</td>
+								<td>R × S</td>
+							</tr>
+							<tr>
+								<td>union</td>
+								<td>R <span class="relalgsymbol">&#x22c3;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c3;</span> S</td>
+								<td>R + S</td>
+							</tr>
+							<tr>
+								<td>difference</td>
+								<td>R \ S</td>
+								<td>R - S</td>
+								<td>R - S</td>
+							</tr>
+							<tr>
+								<td>intersection</td>
+								<td>R <span class="relalgsymbol">&#x22c2;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c2;</span> S</td>
+								<td>R * S</td>
+							</tr>
+							<tr>
+								<td>division</td>
+								<td>R ÷ S</td>
+								<td>R ÷ S</td>
+								<td>R ÷ S</td>
+							</tr>
+							<tr>
+								<td>natural join</td>
+								<td>R <span class="relalgsymbol">&#x22c8;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c8;</span> S</td>
+								<td>R @ S</td>
+							</tr>
+							<tr>
+								<td>left semijoin</td>
+								<td>R <span class="relalgsymbol">&#x22c9;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c9;</span> S</td>
+								<td>R $@ S</td>
+							</tr>
+							<tr>
+								<td>right semijoin</td>
+								<td>R <span class="relalgsymbol">&#x22ca;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22ca;</span> S</td>
+								<td>R @$ S</td>
+							</tr>
+							<tr>
+								<td>antijoin</td>
+								<td>R <span class="relalgsymbol">&#x25b7;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x25b7;</span> S</td>
+								<td>R !@ S</td>
+							</tr>
+							<tr>
+								<td>left outer join</td>
+								<td>R <span class="relalgsymbol">&#x27d5;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x27d5;</span> S</td>
+								<td>R &@ S</td>
+							</tr>
+							<tr>
+								<td>right outer join</td>
+								<td>R <span class="relalgsymbol">&#x27d6;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x27d6;</span> S</td>
+								<td>R @& S</td>
+							</tr>
+							<tr>
+								<td>full outer join</td>
+								<td>R <span class="relalgsymbol">&#x27d7;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x27d7;</span> S</td>
+								<td>R @@ S</td>
+							</tr>
+							<tr>
+								<td>thetajoin</td>
+								<td>R <span class="relalgsymbol">&#x22c8;</span> <span class="relalgsymbol" style="vertical-align:sub">&#x03F4;</span> S</td>
+								<td><span class="relalgsymbol">&#x03F4;</span> ( conditional ; R , S )</td>
+								<td>THETA_JOIN ( conditional ; R , S )</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="unary-ops">Unary operations</h2></div>
+				<div class="panel-body">
+					<h3 id="unary-quick-ov">Quick overview</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Standard operation</th>
+								<th>Classical relational algebraic expression</th>
+								<th>The same expression in the simulator - with symbols</th>
+								<th>The same expression in the simulator - with typable syntax</th>
+							<tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>projection <em>(standard)</em></td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D745;</span> <span style="vertical-align:sub">att1, att2</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c0;</span> ( att1, att2 ; R )</td>
+								<td>PI ( att1, att2 ; R )</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: middle">selection</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D748;</span> <span style="vertical-align:sub">att1=D & att2<5</span> ( R )</td>
+								<td style="vertical-align: middle"><span class="relalgsymbol">&#x03c3;</span> ( att1 == 'D' && att2 < 5 ; R )</td>
+								<td style="vertical-align: middle">SIGMA ( att1 == 'D' && att2 < 5 ; R )</td>
+							</tr>
+							<tr>
+								<td>rename relation</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D746;</span> <span style="vertical-align:sub">S</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c1;</span> ( S ; R )</td>
+								<td>RO ( S ; R )</td>
+							</tr>
+							<tr>
+								<td>rename attributes</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D746;</span> <span style="vertical-align:sub">att1/new1, att2/new2</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c1;</span> ( att1 / new1 , att2 / new2 ; R )</td>
+								<td>RO ( att1 / new1 , att2 / new2 ; R )</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Extended operation</th>
+								<th>Classical relational algebraic expression</th>
+								<th>The same expression in the simulator - with symbols</th>
+								<th>The same expression in the simulator - with typable syntax</th>
+							<tr>
+						</thead>
+							<tr>
+								<td>projection <em>(extended)</em></td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D745;</span> <span style="vertical-align:sub">att1, att2*att3&#x2192;new</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c0;</span> ( att1, att2*att3-&gt;new ; R )</td>
+								<td>PI ( att1, att2*att3-&gt;new ; R )</td>
+							</tr>
+							<tr>
+								<td>distinct</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D739;</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03b4;</span> ( R )</td>
+								<td>DELTA( R )</td>
+							</tr>
+							<tr>
+								<td>sort</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D749;</span> <span style="vertical-align:sub">att1, att2</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c4;</span> ( att1 , att2 ; R )</td>
+								<td>TAU ( att1 , att2 ; R )</td>
+							</tr>
+							<tr>
+								<td>aggregation</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D738;</span> <span style="vertical-align:sub">att1, MIN(att3)&#x2192;minimum</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03b3;</span> ( att1 , MIN(att3)-&gt;minimum ; R )</td>
+								<td>GAMMA ( att1 , MIN(att3)-&gt;minimum ; R )</td>
+							</tr>
+						</tbody>
+					</table>
+					<h3 id="unary-detailed-ov">Detailed overview</h3>
+					<h4>Syntax of the syntax overview</h4>
+					<p>A <code>token</code> is a nonterminal, i.e. something that is only a concept, not something you type. When you see <code>relation</code>, you can drill-down and check
+						what it can be made of, and you will find that a <code>relation</code> can be a <code class="term">relation-name</code>. 
+						Now the name of a relation is where you can stop, it is a terminal, i.e. something you can type. That's the difference between the colors of the tokens.
+					</p>
+					<p>The black signs are not part of the grammar, i.e. you don't type them. They help to understand how the grammar builds up.</p>
+					<p>The (black) | sign shows that a given nonterminal can be a list of things, and the possible elements in the list are separated by this sign.
+						The <code>a</code> | <code>b</code> means that either <code>a</code> or <code>b</code> can be used in that rule.
+						The similarities to the regular expressions won't stop here.
+					</p>
+					<p>The (black) parenthesis with an asterisk: <em>( ... )*</em> shows that the content of the parenthesis can be omitted, used or even multiplied.
+						The <code class="term">a</code> ( <code class="term">,</code> <code class="term">b</code> )* means that <em>a</em> is syntactically correct, and
+						so is <em>a,b</em> or <em>a,b,b</em> and so on.
+					</p>
+					<p>The (black) bracket <em>[ ... ]</em> shows that the content can be omitted or used once, but not more often than that. It means, it is optional.</p>
+					<p>Now back to the grammar. A syntactically correct relational algebraic expression is a <code>query</code>.</p>
+					<p><code>query</code> := <code>relation</code>
+					<p><code>relation</code> := <code class="term">relation-name</code> | <code>relation</code> | <code class="term">(</code> <code>relation</code> <code class="term">)</code> | <code>unary-operation</code> | <code>binary-operation</code></p>
+					
+					<h4 id="binary-operations-grammar">Binary operations</h4>
+					<p><code>binary-operation</code> := <code>relation</code> <code>binary-operator</code> <code>relation</code> | <code>theta-join</code>
+					<p><code>theta-join</code> := <code class="term">THETA_JOIN</code> <code class="term">(</code> <code>conditional</code> <code class="term">;</code> <code>relation</code> <code class="term">,</code> <code>relation</code> <code class="term">)</code>
+												  | <code class="term"><span class="relalgsymbol">&#x03F4;</span></code> <code class="term">(</code> <code>conditional</code> <code class="term">;</code> <code>relation</code> <code class="term">,</code> <code>relation</code> <code class="term">)</code>
+					</p>
+					<p><code>binary-operator</code> := <code class="term">+</code> | <code class="term">-</code> | <code class="term">*</code> | <code class="term">×</code> | <code class="term">÷</code> | <code class="term">@</code> | <code class="term">$@</code> | <code class="term">@$</code>
+							| <code class="term">!@</code> | <code class="term">&@</code> | <code class="term">@&</code> | <code class="term">@@</code> | <code class="term"><span class="relalgsymbol">&#x22c3;</span></code> | <code class="term"><span class="relalgsymbol">&#x22c2;</span></code> 
+							| <code class="term"><span class="relalgsymbol">&#x22c8;</span></code> | <code class="term"><span class="relalgsymbol">&#x22c9;</span></code> | <code class="term"><span class="relalgsymbol">&#x22ca;</span></code>
+							| <code class="term"><span class="relalgsymbol">&#x25b7;</span></code> | <code class="term"><span class="relalgsymbol">&#x27d5;</span></code> | <code class="term"><span class="relalgsymbol">&#x27d6;</span></code> | <code class="term"><span class="relalgsymbol">&#x27d7;</span></code>
+					</p>
+					<h4 id="unary-operations-grammar">Unary operations</h4>
+					<p><code>unary-operation</code> := <code>projection</code> | <code>selection</code> | <code>rename</code> | <code>distinct</code> | <code>sort</code> | <code>aggregate</code></p>
+					<p><code>projection</code> := <code>pi</code> <code class="term">(</code> <code>attribute-list</code> <code class="term">;</code> <code>relation</code> <code class="term">)</code>
+						| <code>pi</code> <code class="term">(</code> <code>extended-attribute-list</code> <code class="term">;</code> <code>relation-name</code> <code class="term">)</code>
+					</p>
+					<p><code>selection</code> := <code>sigma</code> <code class="term">(</code> <code>conditional</code> <code class="term">;</code> <code>relation-name</code> <code class="term">)</code></p>
+					<p><code>rename</code> := <code>ro</code> <code class="term">(</code> <code>relation-name</code> <code class="term">;</code> <code>relation-name</code> <code class="term">)</code>
+							| <code>ro</code> <code class="term">(</code> <code>rename-list</code> <code class="term">;</code> <code>relation-name</code> <code class="term">)</code>
+					</p>
+					<p><code>distinct</code> := <code>delta</code> <code class="term">(</code> <code>relation-name</code> <code class="term">)</code></p>
+					<p><code>sort</code> := <code>tau</code> <code class="term">(</code> <code>attribute-list</code> <code class="term">;</code> <code>relation-name</code> <code class="term">)</code></p>
+					<p><code>aggregate</code> := <code>gamma</code> <code class="term">(</code> <code>aggregation-list</code> <code class="term">;</code> <code>relation-name</code> <code class="term">)</code></p>
+					
+					<p><code>pi</code> := <code class="term">PI</code> | <code class="term"><span class="relalgsymbol">&#x03c0;</span></code></p>
+					<p><code>sigma</code> := <code class="term">SIGMA</code> | <code class="term"><span class="relalgsymbol">&#x03c3;</span></code></p>
+					<p><code>ro</code> := <code class="term">RO</code> | <code class="term"><span class="relalgsymbol">&#x03c1;</span></code></p>
+					<p><code>delta</code> := <code class="term">DELTA</code> | <code class="term"><span class="relalgsymbol">&#x03b4;</span></code></p>
+					<p><code>tau</code> := <code class="term">TAU</code> | <code class="term"><span class="relalgsymbol">&#x03c4;</span></code></p>
+					<p><code>gamma</code> := <code class="term">GAMMA</code> | <code class="term"><span class="relalgsymbol">&#x03b3;</span></code></p>
+					
+					<p>Now that we fixed the syntax of every operator, let's look into the syntax of their various arguments. 
+					The examples in the table of the <a href="#unary-quick-ov">'Quick overview' section</a> might prove to be useful in deciphering the rules.</p>
+					
+					<h4 id="unary-general">General blocks</h4>
+					<p><code>attribute-name</code> := <code>attribute-absolute-name</code> | <code>attribute-relative-name</code></p>
+					<p><code>attribute-absolute-name</code> := <code class="term">relation-name</code> <code>.</code> <code>attribute-relative-name</code></p>
+					<p><code>attribute-relative-name</code> := [A-Za-z][A-Za-z0-9]*</p>
+					<p><code>relation-name</code> := [A-Za-z][A-Za-z0-9]*</p>
+					<p><code>calculation</code> := <code class="term">(</code> <code>calculation</code> <code class="term">)</code> | <code>literal</code> ( <code>arithmetic-operator</code> <code>literal</code> )*</p>
+					<p><code>literal</code> := <code>attribute-name</code> | <code>string</code> | <code>number</code></p>
+					<p><code>arithmetic-operator</code> := <code class="term">+</code> | <code class="term">-</code> | <code class="term">*</code> | <code class="term">/</code> | <code class="term">%</code> | <code class="term">^</code></p>
+					<p><code>string</code> := single or double quoted arbitrary text, for example: <code>'text'</code> or <code>"text"</code></p>
+					<p><code>number</code> := any kind of C-like number, for example: <code>5</code> or <code>1.3</code> or <code>-4.5</code>
+					
+					<h4 id="unary-attlist">Attribute list</h4>
+					<p><code>attribute-list</code> := <code>attribute-name</code> (<code class="term">,</code> <code>attribute-name</code> )*</p>
+					<p><code>extended-attribute-list</code> := <code>extended-attribute-name</code> (<code class="term">,</code> <code>extended-attribute-name</code> )*</p>
+					<p><code>extended-attribute-name</code> := <code>calculation</code> [<code class="term">-&gt;</code> <code>attribute-relative-name</code>]</p>
+					
+					<h4 id="unary-cond">Conditional</h4>
+					<p><code>conditional</code> := <code>condition</code> | <code class="term">!</code> <code>conditinal</code> | <code class="term">(</code> <code>conditional</code> <code class="term">)</code>
+						| <code>conditional</code> ( <code>logical-operator</code> <code>conditional</code> )*
+					</p>
+					<p><code>condition</code> := <code>calculation</code> <code>comparision-operator</code> <code>calculation</code>
+					<p><code>logical-operator</code> := <code class="term">&&</code> | <code class="term">||</code></p>
+					<p><code>comparision-operator</code> := <code class="term">==</code> | <code class="term">&lt;=</code> | <code class="term">&gt;=</code> | <code class="term">!=</code> | <code class="term">&lt;</code> | <code class="term">&gt;</code></p>
+					
+					<h4 id="unary-rename">Rename list</h4>
+					<p><code>rename-list</code> := <code>attribute-name</code> <code class="term">/</code> <code>attribute-relative-name</code> (<code class="term">,</code> <code>attribute-name</code> <code class="term">/</code> <code>attribute-relative-name</code>)*</p>
+					
+					<h4 id="unary-aggregation">Aggregation</h4>
+					<p><code>aggregation-list</code> := <code>aggregation-item</code> ( <code class="term">,</code> <code>aggregation-item</code> )*</p>
+					<p><code>aggregation-item</code> := <code>extended-attribute-name</code> | <code>aggregation</code></p>
+					<p><code>aggregation</code> := <code>aggregation-function</code> [<code class="term">-&gt;</code> <code>attribute-relative-name</code>]</p>
+					<p><code>aggregation-function</code> := <code>aggregation-function-min</code> | <code>aggregation-function-max</code> | <code>aggregation-function-sum</code> | <code>aggregation-function-avg</code></p>
+					<p><code>aggregation-function-min</code> := <code class="term">MIN</code> <code class="term">(</code> <code>attribute-name</code> <code class="term">)</code></p>
+					<p><code>aggregation-function-max</code> := <code class="term">MAX</code> <code class="term">(</code> <code>attribute-name</code> <code class="term">)</code></p>
+					<p><code>aggregation-function-sum</code> := <code class="term">SUM</code> <code class="term">(</code> <code>attribute-name</code> <code class="term">)</code></p>
+					<p><code>aggregation-function-avg</code> := <code class="term">AVG</code> <code class="term">(</code> <code>attribute-name</code> <code class="term">)</code></p>
+				</div>
+			</div>
+		</div> <!-- container-fluid -->
+</body>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/handlebars-v3.0.0.js"></script>
+<script src="js/relalg_templates.js"></script>
+<script src="js/references.js"></script>
+</html>

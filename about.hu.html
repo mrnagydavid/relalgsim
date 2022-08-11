@@ -1,0 +1,69 @@
+﻿
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/toc.css" rel="stylesheet" type="text/css"  />
+	<link href="css/theme.css" rel="stylesheet" type="text/css"  />
+	<title>Bemutatkozás - Relációs algebra szimulátor</title>
+</head>
+<body>
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">RelAlgSim</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav en">
+						<li><a href="index.html" class="i18n-menu-home">Kezdőlap</a></li>
+						<li><a href="reference.hu.html" class="i18n-menu-reference">Kézikönyv</a></li>
+						<li class="active"><a href="#" class="i18n-menu-about">Bemutatkozás</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container-fluid -->
+		</nav>
+		<div class="container">
+			<div class="jumbotron">
+				<h1>Hello, látogató!</h1>
+				<p>Ez a relációs algebrai szimulátor projekt egy programtervező informatikai BSc-s szakdolgozati téma.</p>
+
+				<p>Az elmúlt félévek során <em>adatbázisok</em> órán a <a href="http://en.wikipedia.org/wiki/Relational_algebra">relációs algebrára</a>
+					is kitértünk mint az adatbázis tudomány matematikai alapjára.
+					A képzés részeként saját relációs algebrai kifejezéseket is kellett írnunk bizonyos problémák megoldására, mint például:
+					<em>Kik szeretik legfeljebb azokat a gyümölcsöket, mint Anna?</em>
+				</p>
+				<p>Mivel szorgalmas és igyekvő diákok vagyunk, elkezdtünk megírni számtalan sornyi relációs algebrai kifejezést,
+					ám a végén csak egyetlen módja volt annak, hogy kiderítsük, a megoldásunk helyes-e vagy nem, mégpedig ha leelleőrizzük
+					egymás kézzelírott sorait. NOPE.</p>
+				<p>Kicsivel korábban tanultunk a Turing-gépekről - elég jó dolog az. Annak érdekében, hogy gyorsítsam a működésük megértését,
+					kerestem <a href="https://martinugarte.com/turingmachine/">online Turing-gép szimulátort</a>, 
+					ami megfizethetetlen segítséget nyújtott ebben.
+				</p>
+				<p>Ugyanezzel a gondolattal kezdtem relációs algebrai szimulátor keresésébe, de egyet sem találtam.
+					A tanárom is megerősített abban, hogy egy ilyen program igen hasznos eszköz lehetne a tanuláshoz.
+					Utólag visszatekintve már tudom, hogy a guglizó képességem hagyott cserben,
+					mivel vannak közvetlenül relációs algebrát használó megoldások.
+				</p>
+				<p>A <a href="http://138.232.66.66/ra/calc.htm">Relational algebra calculator</a> szintén egy webes megoldás, 
+					amit Johannes Kessler készített az Innsbrucki Egyetemen, és igazán nagyszerű felületet biztosít.
+				</p>
+				<p>Ezen túl is vannak még megoldások, de valószínűleg nem olyan jól használhatóak, mint egy webes program.
+					Egyikük a <a href="http://www-rohan.sdsu.edu/~eckberg/relationalcalculusemulator.html">Relational Calculus Emulator</a>, 
+					ami egy Java asztali alkalmazás, s amihez még külön MySQL-t is kell telepíteni. Ezzel egy másfajta koncepciót képvisel,
+					ami a relációs algebrai kifejezést SQL utasítássá fordítja, és azt hajtatja végre.
+				</p>
+				<p>Valamint van még a <a href="http://ltworf.github.io/relational/">Relational</a>, ami egy Pythonban írt Qt4 alkalmazás.</p>
+				<p>Mindenesetre mivel nem ismertem még ezeket a programokat, úgy döntöttem, hogy csinálok egyet. 
+				Ha nem is ez az első, de legalább itt van. Használd egészséggel.</p>
+			</div>
+		</div> <!-- container-fluid -->
+</body>
+</html>

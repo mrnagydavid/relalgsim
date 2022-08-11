@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Processing js proba</title>
+	<script src="../js/jquery-1.11.2.min.js"></script>
+	<script src="../js/jquery-mousewheel.min.js"></script>
+	<script src="../js/processing.min.js"></script>
+	<script src="../js/relalg_treeviewer.js"></script>
+</head>
+<body>
+	<h1>Proba</h1>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<div id="treeBlock" class="col-lg-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><strong class="i18n-ui-qrytree">Query-tree</strong></div>
+						<div class="panel-body">
+							<div id="processingjs"><canvas id="tv"></canvas></div>
+						</div>
+					</div>
+				</div>
+	<br />
+	<button onclick="start();">Start</button>
+</body>
+<script type="application/javascript">
+function start() {
+	var tm = getTreeManager(true);
+	var qtr5 = {
+		name: "_X5",
+		source: {
+			cmd: "THETA_JOIN",
+			relations: [
+				{
+					name: "_X3",
+					source: {
+						cmd: "FULL_OUTER_JOIN",
+						relations: 
+						[
+							{
+								name: "_X0",
+								source: {
+									cmd: "DIVISION",
+									relations: [
+										{
+											name: "_X1",
+											source: {
+												cmd: "COPY",
+												relation: "R1"
+											}
+										},
+										{
+											name: "_X1",
+											source: {
+												cmd: "COPY",
+												relation: "R2"
+											}
+										}
+									]
+								}
+							},
+							{
+								name: "_X1",
+								source: {
+									cmd: "COPY",
+									relation: "T1"
+								}
+							}
+						]
+					}
+				},
+				{
+					name: "_X4",
+					source: {
+						cmd: "SORT",
+						relation:
+						{
+							name: "_X1",
+					source: {
+						cmd: "UNION",
+						relations: [{ name: "_X1",
+									source: {
+										cmd: "DELTA",
+										relation: { name: "_X1",
+													source: {
+														cmd: "COPY",
+														relation: "R"
+													}
+										}
+									}
+									},
+									{ name: "_X1",
+									source: {
+										cmd: "DELTA",
+										relation: { name: "_X1",
+													source: {
+														cmd: "COPY",
+														relation: "R"
+													}
+										}
+									}
+									}
+									]
+					}
+						},
+						parameter: {
+							att1: {},
+							att3: {}
+						}
+					}
+				}
+			],
+			parameter: {
+				esc: "%att1%<=%att3%"
+			}
+		}
+	};
+	var qtr4 = {
+		name: "_X5",
+		source: {
+			cmd: "THETA_JOIN",
+			relations: [
+				{
+					name: "_X3",
+					source: {
+						cmd: "FULL_OUTER_JOIN",
+						relations: 
+						[
+							{
+								name: "_X0",
+								source: {
+									cmd: "DIVISION",
+									relations: [
+										{
+											name: "_X1",
+											source: {
+												cmd: "COPY",
+												relation: "R1"
+											}
+										},
+										{
+											name: "_X1",
+											source: {
+												cmd: "COPY",
+												relation: "R2"
+											}
+										}
+									]
+								}
+							},
+							{
+								name: "_X1",
+								source: {
+									cmd: "COPY",
+									relation: "T1"
+								}
+							}
+						]
+					}
+				},
+				{
+					name: "_X4",
+					source: {
+						cmd: "SORT",
+						relation:
+						{
+							name: "_X2",
+							source: {
+								cmd: "COPY",
+								relation: "R1"
+							}
+						},
+						parameter: {
+							att1: {},
+							att3: {}
+						}
+					}
+				}
+			],
+			parameter: {
+				esc: "%att1%<=%att3%"
+			}
+		}
+	};
+	qtr2 = { name: "_X1",
+			source: 
+			{
+				cmd: "PROJECTION",
+				relation: 
+				{ 
+					name: "_X1",
+					source: {
+						cmd: "COPY",
+						relation: "R"
+					}
+				},
+				parameter: {
+					att1: {}
+				}
+			}
+		};
+	qtr3 = { name: "_X1",
+					source: {
+						cmd: "UNION",
+						relations: [{ name: "_X1",
+									source: {
+										cmd: "DELTA",
+										relation: { name: "_X1",
+													source: {
+														cmd: "COPY",
+														relation: "R"
+													}
+										}
+									}
+									},
+									{ name: "_X1",
+									source: {
+										cmd: "DELTA",
+										relation: { name: "_X1",
+													source: {
+														cmd: "COPY",
+														relation: "R"
+													}
+										}
+									}
+									}
+									]
+					}
+		}
+	qtr1 = {
+		name: "_X1",
+		source: {
+			cmd: "COPY",
+			relation: "R"
+		}
+	}
+	tm.addTree(qtr5);
+	var canvas = document.getElementById("tv");
+	var processingInstance = new Processing(canvas, treeViewer);
+}
+
+$("document").ready(function() {
+	/*$("#tvdiv").bind("mousewheel", function (event) {
+		console.log("wheeeel");
+		event.preventDefault();
+		//event.stopPropagation();
+	});
+	/*$("body").on("mousewheel", "canvas", function (event) {
+		console.log("wheeel");
+		event.preventDefault();
+		event.stopPropagation();
+	});*/
+});
+
+</script>
+</html>

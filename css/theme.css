@@ -1,0 +1,206 @@
+﻿td {
+	vertical-align: middle !important;
+}
+
+div#userDefinedRelations {
+}
+
+div#userDefinedRelations div.relation {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+div#userDefinedRelations div.relation input.relationName {
+
+}
+
+div#userDefinedRelations div.relation button.relationButton {
+
+}
+
+div#userDefinedRelations div.relation div.relationData {
+	height: 180px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+
+div#userDefinedRelations div.relation div.relationData.edit, 
+div#resultBlock div.relationData.edit {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+div#userDefinedRelations div.relation div.relationData textarea {
+	height: 180px;
+	resize: none;
+	display: none;
+}
+
+div#userDefinedRelations div.relation div.relationData.edit textarea, 
+div#resultBlock div.relationData.edit textarea {
+	display: block;
+}
+
+div#userDefinedRelations div.relation div.relationData table, 
+div#resultBlock div.relationData table 
+div#resultBlock div.relationData table th {
+ 	max-height: 180px;
+	visibility: visible;
+}
+
+div#userDefinedRelations div.relation div.relationData.edit table, 
+div#resultBlock div.relationData.edit table {
+	display: none;
+}
+
+div#userDefinedRelations div#addRelation {
+
+}
+
+div#userDefinedRelations div#addRelation textarea {
+	height: 180px;
+	resize: none;
+}
+
+div#userDefinedQuery {
+	
+}
+
+div#userDefinedQuery div#helpBlock div {
+	overflow-y:scroll; 
+	overflow-x: hidden;
+	height: 300px;
+}
+
+div#userDefinedQuery div#queryBlock {
+
+}
+
+
+div#userDefinedQuery div#queryBlock textarea#queryCommand {
+	max-height: 266px;
+	font-family: "Lucida Sans Unicode", "Arial Unicode MS", "Cambria Math", "Asana Math",  "Symbola", "Quivira", "STIX", "Code2000", "DejaVu Sans", "unifont" !important; 
+}
+
+div#userDefinedQuery div#queryBlock input#startQuery {
+
+}
+
+div#resultBlock
+div#treeBlock
+{
+
+}
+
+div#resultBlock div.relationBlock {
+	width: 100%;
+}
+
+div#resultBlock div.relationData {
+	min-height: 150px;
+	max-height: 300px;
+	overflow-y: auto; 
+	overflow-x: auto;
+}
+
+div#resultBlock div.relationData textarea {
+	height: 180px;
+	resize: none;
+	display: none;
+}
+
+div#processingjs {
+	min-height: 150px;
+	text-align:center;
+}
+
+#settings li.selected {
+	font-weight: bold;
+}
+
+div#queryToolbar button {
+	height: 35px;
+	width: 42px;
+}
+
+.popover-title {
+    color: blue;
+}
+.popover-content {
+    color: red;
+}
+
+div#overlay {
+	position:fixed;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color:#fff;
+	opacity:0.8;
+	z-index:1001;
+}
+
+div.errormsg {
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	z-index: 1050;
+}
+
+div.errormsg button, div#manageRelationsPanel button {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+div#manageRelationsPanel {
+	position: fixed;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	z-index: 1050;
+	min-width: 33%;
+
+}
+
+div#manageRelationsPanel div.panel.panel-body ul {
+	width: 99%;
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+#toc {
+}
+
+#toc a {
+    display: block;
+}
+
+#toc .toc-1 {
+	padding-top: 0.5%;
+}
+
+#toc .toc-2 {
+	padding-top: 0.5%;
+	padding-left: 2%;
+}
+
+#toc .toc-3 {
+	padding-top: 0.5%;
+	padding-left: 4%;
+}
+
+#toc .toc-4 {
+	padding-top: 0.5%;
+	padding-left: 6%;
+}
+
+.relalgsymbol {
+	font-family: "Arial Unicode MS", "Lucida Sans Unicode", "Cambria Math", "Asana Math",  "Symbola", "Quivira", "STIX", "Code2000", "DejaVu Sans", "unifont" !important; 
+}
+
+code.term {
+	color: #25C72D;
+}

@@ -1,0 +1,580 @@
+﻿
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/toc.css" rel="stylesheet" type="text/css"  />
+	<link href="css/theme.css" rel="stylesheet" type="text/css"  />
+	<title>Kézikönyv - Relációs algebra szimulátor</title>
+</head>
+<body>
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">RelAlgSim</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav en">
+						<li><a href="index.html" class="i18n-menu-home">Kezdőlap</a></li>
+						<li class="active"><a href="#" class="i18n-menu-reference">Kézikönyv</a></li>
+						<li><a href="about.hu.html" class="i18n-menu-about">Bemutatkozás</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container-fluid -->
+		</nav>
+		<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h4>Tartalomjegyzék</h4></div>
+				<div id="toc" class="panel-body">
+				</div>
+			</div>
+			
+			<div class="page-header">
+				<h1 id="input-data">Alapadatok rögzítése <small>Hogyan adjuk meg a forrástáblákat</small></h1>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="source-relations">Forrástáblák</h2></div>
+				<div class="panel-body">
+					<p>A "Forrástáblák" blokk tartalmazza mindazokat a relációkat, amelyeket használhatsz a lekérdezéseidhez.
+						Ahhoz, hogy saját relációt adj a listához, használd a zöldgombos elemet:
+					</p>
+					<div id="userDefinedRelations" class="row">
+						<div id="addRelation" class="col-lg-3 col-md-4 relation">
+							<div class="input-group">
+								<input type="text" id="relationnew_name" class="span form-control relationName" placeholder="Relációnév" data-toggle="tooltip" data-placement="top" title="Add meg a reláció nevét" />
+								<span class="input-group-btn">
+									<button type="button" id="relationnew_add" class="btn btn-success btn-default relationButton" data-toggle="tooltip" data-placement="top" title="Végül ezt nyomd meg"><strong>+</strong></button>
+								</span>
+							</div>
+							<textarea id="relationnew_data" class="form-control relationRaw" placeholder="Adattábla" rows="3" data-toggle="tooltip" data-placement="bottom" title="Add meg a reláció adatait"></textarea>
+						</div>
+						<div class="col-lg-3 col-md-4 relation relationBlock">
+							<p>Ha a nevet és az adatokat is megadtad, akkor nyomd meg a zöld <em>hozzáadás</em> gombot. Ekkor a reláció hozzáadódik a forrástáblák listájához.
+								Ami így fog kinézni:
+							</p>
+						</div>
+						<div id="relation1" class="col-lg-3 col-md-4 relation relationBlock">
+							<div class="input-group">
+							<input type="text" id="relation1_name" class="span form-control relationName" placeholder="Relációnév" value="R1" data-toggle="tooltip" data-placement="top" title="Megváltoztathatod a nevet" />
+							<span class="input-group-btn"> \
+							<button type="button" id="relation1_save" class="btn btn-info btn-default relationButton saveRelation" data-toggle="tooltip" data-placement="top" title="Ezzel mentheted el" data-id="1"><span class=" glyphicon glyphicon-floppy-save"></span></button>
+							<button type="button" id="relation1_del" class="btn btn-danger btn-default relationButton deleteRelation" data-toggle="tooltip" data-placement="top" title="Ezzel törlöd"><strong>x</strong></button>
+							</span>
+							</div>
+							<div id="relation1_data" class="panel panel-default relationData">
+								<table id="relation1_table" class="table table-hover relationTable" data-toggle="tooltip" data-placement="bottom" title="Duplaklikkre szerkeszthető">
+									<thead>
+										<tr><th>nev</th><th>kor</th></tr>
+									</thead>
+									<tbody>
+										<tr><td>Anna</th><th>19</th></tr>
+										<tr><td>Béla</th><th>20</th></tr>
+										<tr><td>Cecil</th><th>21</th></tr>
+									</tbody>
+								</table>
+								<textarea id="relation1_raw" class="form-control relationRaw" placeholder="Adattábla" rows="3" data-delim=";">nev;kor
+Anna;19
+Béla;20
+Cecil;21</textarea>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 relation relationBlock">
+							<p>Ha duplán kattintasz a táblázat soraira, akkor szerkesztheted az adatokat.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="fill-relation">Relációnév kitöltése</h2></div>
+				<div class="panel-body">
+					<p>Néhány szabály a forrástáblák rögzítéséhez:</p>
+					<ul>
+						<li>Minden relációnak nevet kell adni.</li>
+						<li>A relációnév csak ékezetmentes alfanumerikus karakterekből állhat, mint pld. A-Z, a-z és számok, de betűvel kell kezdődnie.</li>
+						<li>A relációneveknek egyedinek kell lenniük.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="fill-row">Reláció sorainak kitöltése</h2></div>
+				<div class="panel-body">
+					<p>Az adatokat rögzíthetjük egyaránt CSV és TSV (tabultárorral tagolt értékek) formátumban. 
+					A szöveg első sora határozza meg az attribútumneveket, a többi sor pedig reláció adatsorait.</p>
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>CSV példa</strong></div>
+						<div class="panel-body">
+<pre>
+<strong>nev;kor</strong>
+Anna;19
+Béla;20
+Cecil;21</pre>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>TSV példa</strong></div>
+						<div class="panel-body">
+<pre>
+<strong>nev	kor</strong>
+Anna	19
+Béla	20
+Cecil	21</pre>
+						</div>
+					</div>
+					<p>Annak ellenére, hogy a TSV-formátum szebb és átláthatóbb, szövegmezőben tabulátorokat gépelni elég nehézkes.
+						A TSV elsősorban akkor hasznos, ha valamilyen más forrásból copypaste-elni szeretnénk, egyébként a CSV használata praktikusabb.</p>
+					<p>Ahogy korábban is, úgy az adatok rögzítésére is vonatkozik néhány szabály:</p>
+					<h4>Általában az adatokra vonatkozó szabályok</h4>
+					<ul>
+						<li>Az adatoknak CSV vagy TSV formátumban kell lenniük</li>
+							<ul>
+								<li>Nem lehet elválasztó karakter a sorok végén.
+								Bár az elemző a sorvégi elválasztó karaktereket figyelmen kívül hagyja.</li>
+								<li>Nem lehet sortörés az utolsó sor végén, mivel ez egy új adatsor kezdetét jelöli,
+								mely adatsor viszont ilymódon üres. Az elemző figyelmen kívül hagyja az utolsó sort, ha az üres.</li>
+							</ul>
+						<li>Az első sor rögzítése kötelező, mert ez határozza meg az attribútumokat.</li>
+						<li>A többi sorból tetszőleges számú lehet. Ezek a reláció adatsorait határozzák meg.</li>
+					</ul>
+					<h4>Attribútumokra vonatkozó szabályok</h4>
+					<ul>
+						<li>Attribútumnév csak ékezetmentes alfanumerikus karakterekből állhat, mint pld. A-Z, a-z és számok, de betűvel kell kezdődnie.</li>
+						<li>Az attribútumneveknek egyedinek kell lenniük az adott relációban.</li>
+					</ul>
+					<h4>Az adatsorokra vonatkozó szabályok</h4>
+					<ul>
+						<li>Az egy adatsorban meghatározott értékek számának meg kell egyeznie az attribútumok számával.
+							Egyetlen kivétel ez alól a figyelmetlenségből ott felejtett a sorvégi elválasztó karakter, melyet az elemző figyelmen kívül hagy.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="save-relation">Relációk mentése és visszatöltése</h2></div>
+				<div class="panel-body">
+					<p>Zavaró lehet, ha minden egyes látogatás alkalmával minden használni kívánt relációt újra meg kell adni.
+					A reláció rögzítését követően használhatod a
+					<button type="button" id="relation1_save" class="btn btn-info btn-default"><span class=" glyphicon glyphicon-floppy-save"></span></button> 
+					gombot, hogy elmentsd azt a böngésző saját tárhelyére ( - nem cookie-ba!).
+					Ezt a gombot a relációk fejlécében találod.
+					</p>
+					<p>Egy már elmentett reláció visszatöltéséhez a "Forrástáblák" panel fejlécében kell megtalálnod a
+						<button type="button" id="relation1_save" class="btn btn-info btn-default"><span class=" glyphicon glyphicon-floppy-open"></span></button> 
+						gombot. Erre kattintva egy panel nyílik meg, amellyel betölthetsz relációkat a táblázatok közé, vagy éppen törölheted azokat a böngésző tárhelyéből ( - ami még mindig nem cookie!).
+					</p>
+				</div>
+			</div>
+			
+			<div class="page-header">
+				<h1 id="rel-alg-exp">Relációs algebrai kifejezés <small>Hogyan működik ez az egész dolog</small></h1>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="grammar-query">Saját lekérdezések írása és végrehajtása</h2></div>
+				<div class="panel-body">
+					<p>Ha a forrástábláidat beállítottad, akkor itt az idő egy kis relációs algebrára. Az oldal középső blokkja pont erre van.
+					Keresd meg azt a részt, amí így néz ki, írd bele a lekérdezésed, és nyomj egy Go!-t.</p>
+					<div id="userDefinedQuery" class="row">
+						<div class="col-lg-4 col-md-4">
+							<textarea id="queryCommand" class="form-control" placeholder="Relációs algebrai kifejezés" data-toggle="tooltip" data-placement="top" title="A lekérdezés helye"></textarea>
+							<button type="button" id="startQuery" class="btn btn-success btn-default col-lg-12 col-md-12" data-toggle="tooltip" data-placement="bottom" title="Indulás">Go!</button>
+						</div>
+					</div>
+					<p>Tegyük fel, hogy le akarod kérdezni a relációban szereplő emberek neveit, ezért a következőt írod: <code>PI ( nev ; R1 )</code></p>
+					<p>Ekkor, ha a 'Go'-ra kattintasz, egy új reláció fog megjelenni az 'Eredményreláció' blokkban az oldal alján.</p>
+					<div class="row">
+						<div id="resultBlock" class="col-lg-4 col-md-4">
+							<div class="panel panel-primary">
+								<div class="panel-heading"><strong class="i18n-ui-resrel">Eredményreláció</strong> <button id="addResultRelation" class="btn btn-xs btn-success pull-right" data-toggle="tooltip" data-placement="top" title="Másolás a forrástáblák közé">+</button></div>
+								<div class="panel-body">
+									<div id="relation0" class="col-lg-6 relation relationBlock">
+										<div id="relation0_data" class="relationData">
+											<table id="relation0_table" class="table table-hover relationTable" data-toggle="tooltip" data-placement="bottom" title="Duplaklikkre szerkeszthető">
+												<thead>
+													<tr><th>nev</th></tr>
+												</thead>
+												<tbody>
+													<tr><td>Anna</th></tr>
+													<tr><td>Béla</th></tr>
+													<tr><td>Cecil</th></tr>
+												</tbody>
+											</table>
+											<textarea id="relation0_raw" class="form-control relationRaw" placeholder="Data table" rows="3" data-delim=";">nev
+Anna
+Béla
+Cecil</textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4">
+							<p>Hurrá. Ez is egy reláció.</p>
+							<p>Ha duplán kattintasz a táblázatra, szerkeszthetővé válik.</p>
+							<p>De ha az eredményeket fel akarod használni a következő lekérdezéshez,
+								akkor egyszerűen csak nyomj rá a zöld plusz gombra.</p>
+						</div>
+					</div>
+					<p>Végül észre fogod venni, hogy egy lekérdezésfa rajzolódik ki egy ugyanilyen nevű blokkban. A kirajzolt fa a lekérdezés gráfja. 
+						A képet arrébb tudod húzni, vagy éppen nagyíthatod, kicsinyítheted a bal és jobb egérgombok kattintásával.
+					</p>
+					<p>A következő részben megtanulhatod, hogy hogyan írj saját lekérdezést.</p>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="grammar-intro">Bevezetés a nyelvtanba</h2></div>
+				<div class="panel-body">
+					<p>A relációs algebra olyan műveletekből áll, melyek jelölésére használt karakterek nem találhatóak meg a hagyományos billentyűzeteken.
+						Annak érdekében, hogy a relációs algebrai kifejezések leírása lehetséges legyen, két megoldást is elérhető.
+						Egyrészt egy új nyelvtan/szintaxis került létrehozásra. Ha szeretsz új programnyelveket vagy leírónyelveket tanulni,
+						akkor lehetőséged van könnyen gépelhető szimbólumokkal lecserléni a trükkös operátorokat, például a 
+						<code>@@</code> jelet használhatod a <code><span class="relalgsymbol">&#x27d7;</span></code> operátor helyett.
+					</p>
+					<p>Egy másik lehetőség a lekérdezés szerkesztő fölött elhelyezett gombsor használata, amin a műveleti jelölések találhatóak. Bármelyik szimbólumra kattintva
+						az adott szimbólum beszúrásra kerül a szerkesztőbe. Ezáltal lehetőség nyílik olyan lekérdezéseket írni, amelyek némileg hasonlítanak az eredeti
+						algebrai kifejezésekre, például <code>R <span class="relalgsymbol">&#x27d7;</span> S</code>.
+					</p>
+					<p>Tehát van egy nyelvtan és van a gombra-kattintós megoldás, így végeredményben mindegy, hogy 
+						<code>R @@ S</code> vagy <code>R <span class="relalgsymbol">&#x27d7;</span> S</code> kerül a lekérdezés szerkesztőbe, az eredmény ugyanaz lesz.
+					</p>
+					<p>De vannak olyan relációs algebrai kifejezések, melyek paramétert kapnak, tipikusan jobb alsó indexben, például 
+						<code><span class="relalgsymbol">&#x1D7Bc;</span> <span style="font-size:0.8em; vertical-align:sub">nev=Anna</span>( R )</code>.
+						Jelenleg nem lehetséges kisindexes szöveget írni a szerkesztőbe, ezért ezeknél a műveleteknél meg kell ismerkedni egy kicsit az új nyelvtannal.
+						Minden paraméteres operátort zárójelek követnek, mintha egy függvény lenne, s a zárójeleken belül lehet megadni a paramétert és a relációt vagy relációkat.
+						Tehát a korábban említett lekérdezés így nézne ki a szerkesztőben: <code>SIGMA ( nev == 'Anna' ; R )</code> vagy <code>&#x03c3; ( nev == 'Anna' ; R )</code>.
+					</p>
+					<p>
+						Ezzel nagyjából összefoglaltunk mindent, amit tudnod kell a nyelvtanról. A cél az volt, hogy a nyelvtani jelölők a lehető legjobban emlékeztessenek az eredeti operátor jelölésekre.
+					</p>
+					<div class="panel panel-default">
+						<div class="panel-heading"><strong>Példa a nyelvtanra</strong></div>
+						<div class="panel-body">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Művelet</th>
+										<th>Klasszikus relációs algebrai kifejezés</th>
+										<th>A kifejezés szimulátorban használt változata</th>
+									<tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>keresztszorzat</td>
+										<td>R × S</td>
+										<td>R × S</td>
+									</tr>
+									<tr>
+										<td>természetes összekapcsolás</td>
+										<td>R <span class="relalgsymbol">&#x22c8;</span> S</td>
+										<td>R @ S</td>
+									</tr>
+									<tr>
+										<td>teljes külső összekapcsolás</td>
+										<td>R <span class="relalgsymbol">&#x27d7;</span> S</td>
+										<td>R @@ S</td>
+									</tr>
+									<tr >
+										<td style="vertical-align: middle">szelekció</td>
+										<td><span class="relalgsymbol" style="font-size:2em;">&#x1D7Bc;</span><span style="font-size:0.8em; vertical-align:sub">nev=Anna</span><span style="font-size:1.5em;">( R )</span></td>
+										<td style="vertical-align: middle">SIGMA ( nev == 'Anna' ; R )</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<p>Ahogy látható, egyes operátorok teljesen megegyeznek vagy nagyon hasonlóak az eredetihez, míg más operátorokat meg kellett változtatni, hogy leírhatóak legyenek.</p>
+					<p>A legfontosabb, hogy minden művelet eredménye reláció. Ez teszi lehetővé a parancsok egymásba ágyázását, és ezáltal pontosan úgy működik, mint a relációs algebra.
+						A zárójelezés használatára is lehetőség van, amennyiben a kiértékelési sorrenden kell változtatni, amely alapértelmezésben balról-jobbra értékeli ki a műveleteket.
+					</p>
+					<p>Az operátorokat csoportosíthatjuk az aritásuk szerint vagy éppen a paramétereik száma szerint.
+						Aritás szempontjából nézve a bináris műveletek a következőképpen néznek ki:
+					</p>
+					<p><code>relációnév1</code> <code>operátor</code> <code>relációnév2</code></p>
+					<p>Míg az unáris műveletek így néznek ki:</p>
+					<p><code>operátor</code> ( <code>paraméter</code> ; <code>relációnév</code> )</p>
+					<p>Az egyetlen kivétel a fentiektől a <span class="relalgsymbol">&#x03F4;</span>-join, amely bináris művelet, de paraméterrel is rendelkezik - ez a tulajdonsága egyedivé teszi:</p>
+					<p><code>THETA_JOIN</code> ( <code>feltétel</code> ; <code>relációnév1</code>,  <code>relációnév2</code> )</p>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="bin-ops">Bináris műveletek</h2></div>
+				<div class="panel-body">
+					<p>A bináris műveletek meglehetősen egyszerűek és evidensek.
+						A <span class="relalgsymbol">&#x03F4;</span>-összekapcsolás <em>feltétel</em> paramétere egy C-szerű feltételes operátorokat használó szöveg, melyről részletesebben a következő blokkban lesz szó.
+					</p>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Művelet</th>
+								<th>Klasszikus relációs algebrai kifejezés</th>
+								<th>A kifejezés szimulátorban használt szimbólumos változata</th>
+								<th>A kifejezés szimulátorban használt gépelhető változata</th>
+							<tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>keresztszorzat</td>
+								<td>R × S</td>
+								<td>R × S</td>
+								<td>R × S</td>
+							</tr>
+							<tr>
+								<td>unió</td>
+								<td>R <span class="relalgsymbol">&#x22c3;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c3;</span> S</td>
+								<td>R + S</td>
+							</tr>
+							<tr>
+								<td>különbség</td>
+								<td>R \ S</td>
+								<td>R - S</td>
+								<td>R - S</td>
+							</tr>
+							<tr>
+								<td>metszet</td>
+								<td>R &#x22c2; S</td>
+								<td>R &#x22c2; S</td>
+								<td>R * S</td>
+							</tr>
+							<tr>
+								<td>osztás</td>
+								<td>R ÷ S</td>
+								<td>R ÷ S</td>
+								<td>R ÷ S</td>
+							</tr>
+							<tr>
+								<td>természetes összekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x22c8;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c8;</span> S</td>
+								<td>R @ S</td>
+							</tr>
+							<tr>
+								<td>bal féligösszekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x22c9;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22c9;</span> S</td>
+								<td>R $@ S</td>
+							</tr>
+							<tr>
+								<td>jobb féligösszekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x22ca;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x22ca;</span> S</td>
+								<td>R @$ S</td>
+							</tr>
+							<tr>
+								<td>antiösszekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x25b7;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x25b7;</span> S</td>
+								<td>R !@ S</td>
+							</tr>
+							<tr>
+								<td>bal külső összekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x27d5;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x27d5;</span> S</td>
+								<td>R &@ S</td>
+							</tr>
+							<tr>
+								<td>jobb külső összekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x27d6;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x27d6;</span> S</td>
+								<td>R @& S</td>
+							</tr>
+							<tr>
+								<td>teljes külső összekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x27d7;</span> S</td>
+								<td>R <span class="relalgsymbol">&#x27d7;</span> S</td>
+								<td>R @@ S</td>
+							</tr>
+							<tr>
+								<td>théta összekapcsolás</td>
+								<td>R <span class="relalgsymbol">&#x22c8;</span> <span class="relalgsymboL" style="vertical-align:sub">&#x03F4;</span> S</td>
+								<td><span class="relalgsymbol">&#x03F4;</span> ( feltétel ; R , S )</td>
+								<td>THETA_JOIN ( feltétel ; R , S )</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading"><h2 id="unary-ops">Unáris műveletek</h2></div>
+				<div class="panel-body">
+					<h3 id="unary-quick-ov">Gyors áttekintő</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Standard műveletek</th>
+								<th>Klasszikus relációs algebrai kifejezés</th>
+								<th>A kifejezés szimulátorban használt szimbólumos változata</th>
+								<th>A kifejezés szimulátorban használt gépelhető változata</th>
+							<tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>projekció <em>(standard)</em></td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D745;</span> <span style="vertical-align:sub">att1, att2</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c0;</span> ( att1, att2 ; R )</td>
+								<td>PI ( att1, att2 ; R )</td>
+							</tr>
+							<tr>
+								<td style="vertical-align: middle">szelekció</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D748;</span> <span style="vertical-align:sub">att1=D & att2<5</span> ( R )</td>
+								<td style="vertical-align: middle"><span class="relalgsymbol">&#x03c3;</span> ( att1 == 'D' && att2 < 5 ; R )</td>
+								<td style="vertical-align: middle">SIGMA ( att1 == 'D' && att2 < 5 ; R )</td>
+							</tr>
+							<tr>
+								<td>reláció átnevezése</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D746;</span> <span style="vertical-align:sub">S</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c1;</span> ( S ; R )</td>
+								<td>RO ( S ; R )</td>
+							</tr>
+							<tr>
+								<td>attribútumok átnevezése</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D746;</span> <span style="vertical-align:sub">att1/uj1, att2/uj2</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c1;</span> ( att1 / uj1 , att2 / uj2 ; R )</td>
+								<td>RO ( att1 / uj1 , att2 / uj2 ; R )</td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Kiterjesztett műveletek</th>
+								<th>Klasszikus relációs algebrai kifejezés</th>
+								<th>A kifejezés szimulátorban használt szimbólumos változata</th>
+								<th>A kifejezés szimulátorban használt gépelhető változata</th>
+							<tr>
+						</thead>
+							<tr>
+								<td>projekció <em>(kiterjesztett)</em></td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D745;</span> <span style="vertical-align:sub">att1, att2*att3&#x2192;uj</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c0;</span> ( att1, att2*att3-&gt;uj ; R )</td>
+								<td>PI ( att1, att2*att3-&gt;uj ; R )</td>
+							</tr>
+							<tr>
+								<td>egyedi sorok</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D739;</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03b4;</span> ( R )</td>
+								<td>DELTA ( R )</td>
+							</tr>
+							<tr>
+								<td>sorbarendezés</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D749;</span> <span style="vertical-align:sub">att1, att2</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03c4;</span> ( att1 , att2 ; R )</td>
+								<td>TAU ( att1 , att2 ; R )</td>
+							</tr>
+							<tr>
+								<td>aggregáció</td>
+								<td><span class="relalgsymbol" style="font-size:2em;">&#x1D738;</span> <span style="vertical-align:sub">att1, MIN(att3)&#x2192;min</span> ( R )</td>
+								<td><span class="relalgsymbol">&#x03b3;</span> ( att1 , MIN(att3)-&gt;min; R )</td>
+								<td>GAMMA ( att1 , MIN(att3)-&gt;min ; R )</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<h3 id="unary-detailed-ov">Részletes áttekintő</h3>
+					<h4>A szintaxist bemutató szakasz szintaxisa</h4>
+					<p>A <code>token</code> egy nemterminális, azaz egy fogalom, nem pedig valami, amit legépelnél. 
+						Amikor azt olvasod, hogy <code>reláció</code>, akkor tovább kell kutatni, hogy ez a token miből épülhet fel.
+						Azt fogod találni, hogy a <code>reláció</code> lehet <code class="term">relációnév</code>. 
+						Márpedig a reláció neve az valami olyan, amit le tudsz gépelni, tehát megállhatsz a kutatásban. Ez egy terminális szimbólum. Ez a különbség a szineikben.
+					</p>
+					<p>A fekete jelölés nem része a nyelvtannak, tehát nem gépeled le őket. A nyelvtani szabályosságok leírásában segítenek csak.</p>
+					<p>A (fekete) | jel azt mutatja, hogy az adott nemterminális többféle dolog lehet, és a lehetséges dolgokat ezzel a jellel választjuk el.
+						Az <code>a</code> | <code>b</code> azt jelenti, hogy az adott szimbólum lehet akár <code>a</code> akár <code>b</code>.
+						A reguláris kifejezésekkel való hasonlóság nem áll meg itt.
+					</p>
+					<p>A (fekete) zárójeleket követő csillag szimbólumegyüttes: <em>( ... )*</em> azt jelenti, hogy a zárójel tartalma elhagyható, használható vagy akár többszörözhető is.
+						Az <code class="term">a</code> ( <code class="term">,</code> <code class="term">b</code> )* azt jelenti, hogy az <em>a</em> is helyes,
+						az <em>a,b</em> is, és az <em>a,b,b</em> is, és így tovább.
+					</p>
+					<p>A (fekete) szögletes zárójel <em>[ ... ]</em> azt jelenti, hogy a tartalma elhagyható vagy használható egyszer. Tehát a tartalom opcionális.</p>
+					<p>Akkor vissza a nyelvtanhoz. A szintaktikusan helyes relációs algebrai kifejezés egy <code>lekérdezés</code>.</p>
+					<p><code>lekérdezés</code> := <code>reláció</code>
+					<p><code>reláció</code> := <code class="term">relációnév</code> | <code>reláció</code> | <code class="term">(</code> <code>reláció</code> <code class="term">)</code> | <code>unáris-művelet</code> | <code>bináris-művelet</code></p>
+					
+					<h4 id="binary-operations-grammar">Bináris műveletek</h4>
+					<p><code>bináris-művelet</code> := <code>reláció</code> <code>bináris-operátor</code> <code>reláció</code> | <code>theta-összekapcsolás</code>
+					<p><code>theta-join</code> := <code class="term">THETA_JOIN</code> <code class="term">(</code> <code>feltételes-kifejezés</code> <code class="term">;</code> <code>reláció</code> <code class="term">,</code> <code>reláció</code> <code class="term">)</code>
+												  | <code class="term"><span class="relalgsymbol">&#x03F4;</span></code> <code class="term">(</code> <code>feltételes-kifejezés</code> <code class="term">;</code> <code>reláció</code> <code class="term">,</code> <code>reláció</code> <code class="term">)</code>
+					</p>
+					<p><code>bináris-operátor</code> := <code class="term">+</code> | <code class="term">-</code> | <code class="term">*</code> | <code class="term">×</code> | <code class="term">÷</code> | <code class="term">@</code> | <code class="term">$@</code> | <code class="term">@$</code>
+							| <code class="term">!@</code> | <code class="term">&@</code> | <code class="term">@&</code> | <code class="term">@@</code> | <code class="term"><span class="relalgsymbol">&#x22c3;</span></code> | <code class="term"><span class="relalgsymbol">&#x22c2;</span></code> 
+							| <code class="term"><span class="relalgsymbol">&#x22c8;</span></code> | <code class="term"><span class="relalgsymbol">&#x22c9;</span></code> | <code class="term"><span class="relalgsymbol">&#x22ca;</span></code>
+							| <code class="term"><span class="relalgsymbol">&#x25b7;</span></code> | <code class="term"><span class="relalgsymbol">&#x27d5;</span></code> | <code class="term"><span class="relalgsymbol">&#x27d6;</span></code> | <code class="term"><span class="relalgsymbol">&#x27d7;</span></code>
+					</p>
+					<h4 id="unary-operations-grammar">Unáris műveletek</h4>
+					<p><code>unáris-művelet</code> := <code>projekció</code> | <code>szelekció</code> | <code>átnevezés</code> | <code>egyedi-sorok</code> | <code>rendezés</code> | <code>aggregáció</code></p>
+					<p><code>projekció</code> := <code>pi</code> <code class="term">(</code> <code>attribútumlista</code> <code class="term">;</code> <code>reláció</code> <code class="term">)</code>
+						| <code>pi</code> <code class="term">(</code> <code>kiterjesztett-attribútumlista</code> <code class="term">;</code> <code>relációnév</code> <code class="term">)</code>
+					</p>
+					<p><code>szelekció</code> := <code>sigma</code> <code class="term">(</code> <code>feltételes-kifejezés</code> <code class="term">;</code> <code>relációnév</code> <code class="term">)</code></p>
+					<p><code>átnevezés</code> := <code>ro</code> <code class="term">(</code> <code>relációnév</code> <code class="term">;</code> <code>relációnév</code> <code class="term">)</code>
+							| <code>ro</code> <code class="term">(</code> <code>átnevezési-lista</code> <code class="term">;</code> <code>relációnév</code> <code class="term">)</code>
+					</p>
+					<p><code>egyedi-sorok</code> := <code>delta</code> <code class="term">(</code> <code>relációnév</code> <code class="term">)</code></p>
+					<p><code>rendezés</code> := <code>tau</code> <code class="term">(</code> <code>attribútumlista</code> <code class="term">;</code> <code>relációnév</code> <code class="term">)</code></p>
+					<p><code>aggregáció</code> := <code>gamma</code> <code class="term">(</code> <code>aggregációs-lista</code> <code class="term">;</code> <code>relációnév</code> <code class="term">)</code></p>
+					
+					<p><code>pi</code> := <code class="term">PI</code> | <code class="term"><span class="relalgsymbol">&#x03c0;</span></code></p>
+					<p><code>sigma</code> := <code class="term">SIGMA</code> | <code class="term"><span class="relalgsymbol">&#x03c3;</span></code></p>
+					<p><code>ro</code> := <code class="term">RO</code> | <code class="term"><span class="relalgsymbol">&#x03c1;</span></code></p>
+					<p><code>delta</code> := <code class="term">DELTA</code> | <code class="term"><span class="relalgsymbol">&#x03b4;</span></code></p>
+					<p><code>tau</code> := <code class="term">TAU</code> | <code class="term"><span class="relalgsymbol">&#x03c4;</span></code></p>
+					<p><code>gamma</code> := <code class="term">GAMMA</code> | <code class="term"><span class="relalgsymbol">&#x03b3;</span></code></p>
+					
+					<p>Most, hogy minden művelet számára meghatároztuk a szinatikust, tekintsük a szintaxis egyes elemeit. 
+					A fentebb található táblázat a <a href="#unary-quick-ov">'Gyors áttekintő' fejezetben</a> hasznos lehet a lenti szabályok értelmezésében.</p>
+					
+					<h4 id="unary-general">Általános elemek</h4>
+					<p><code>attribútumnév</code> := <code>abszolút-attribútumnév</code> | <code>relatív-attribútumnév</code></p>
+					<p><code>abszolút-attribútumnév</code> := <code class="term">relációnév</code> <code>.</code> <code>relatív-attribútumnév</code></p>
+					<p><code>relatív-attribútumnév</code> := [A-Za-z][A-Za-z0-9]*</p>
+					<p><code>relációnév</code> := [A-Za-z][A-Za-z0-9]*</p>
+					<p><code>kalkuláció</code> := <code class="term">(</code> <code>kalkuláció</code> <code class="term">)</code> | <code>literál</code> ( <code>számtani-operátor</code> <code>literál</code> )*</p>
+					<p><code>literál</code> := <code>attribútumnév</code> | <code>szöveg</code> | <code>szám</code></p>
+					<p><code>számtani-operátor</code> := <code class="term">+</code> | <code class="term">-</code> | <code class="term">*</code> | <code class="term">/</code> | <code class="term">%</code> | <code class="term">^</code></p>
+					<p><code>szöveg</code> := egyszeres vagy kétszeres idézőjellel közrezárt szöveg: <code>'szöveg'</code> vagy <code>"szöveg"</code></p>
+					<p><code>szám</code> := tetszőleges szám C-szerű formátumban, például: <code>5</code> vagy <code>1.3</code> vagy <code>-4.5</code></p>
+					
+					<h4 id="unary-attlist">Attribútumlista</h4>
+					<p><code>attribútumlista</code> := <code>attribútumnév</code> (<code class="term">,</code> <code>attribútumnév</code> )*</p>
+					<p><code>kiterjesztett-attribútumlista</code> := <code>kiterjesztett-attribútumnév</code> (<code class="term">,</code> <code>kiterjesztett-attribútumnév</code> )*</p>
+					<p><code>kiterjesztett-attribútumnév</code> := <code>kalkuláció</code> [<code class="term">-&gt;</code> <code>relatív-attribútumnév</code>]</p>
+					
+					<h4 id="unary-cond">Feltételes kifejezés</h4>
+					<p><code>feltételes-kifejezés</code> := <code>feltétel</code> | <code class="term">!</code> <code>conditinal</code> | <code class="term">(</code> <code>feltételes-kifejezés</code> <code class="term">)</code>
+						| <code>feltételes-kifejezés</code> ( <code>logikai-operátor</code> <code>feltételes-kifejezés</code> )*
+					</p>
+					<p><code>feltétel</code> := <code>kalkuláció</code> <code>összehasonlító-operátor</code> <code>kalkuláció</code>
+					<p><code>logikai-operátor</code> := <code class="term">&&</code> | <code class="term">||</code></p>
+					<p><code>összehasonlító-operátor</code> := <code class="term">==</code> | <code class="term">&lt;=</code> | <code class="term">&gt;=</code> | <code class="term">!=</code> | <code class="term">&lt;</code> | <code class="term">&gt;</code></p>
+					
+					<h4 id="unary-rename">Átnevezési lista</h4>
+					<p><code>átnevezési-lista</code> := <code>attribútumnév</code> <code class="term">/</code> <code>relatív-attribútumnév</code> (<code class="term">,</code> <code>attribútumnév</code> <code class="term">/</code> <code>relatív-attribútumnév</code>)*</p>
+					
+					<h4 id="unary-aggregation">Aggregáció</h4>
+					<p><code>aggregációs-lista</code> := <code>aggregációs-elem</code> ( <code class="term">,</code> <code>aggregációs-elem</code> )*</p>
+					<p><code>aggregációs-elem</code> := <code>kiterjesztett-attribútumnév</code> | <code>aggregációs</code></p>
+					<p><code>aggregációs</code> := <code>aggregációs-függvény</code> [<code class="term">-&gt;</code> <code>relatív-attribútumnév</code>]</p>
+					<p><code>aggregációs-függvény</code> := <code>aggregációs-függvény-min</code> | <code>aggregációs-függvény-max</code> | <code>aggregációs-függvény-sum</code> | <code>aggregációs-függvény-avg</code></p>
+					<p><code>aggregációs-függvény-min</code> := <code class="term">MIN</code> <code class="term">(</code> <code>attribútumnév</code> <code class="term">)</code></p>
+					<p><code>aggregációs-függvény-max</code> := <code class="term">MAX</code> <code class="term">(</code> <code>attribútumnév</code> <code class="term">)</code></p>
+					<p><code>aggregációs-függvény-sum</code> := <code class="term">SUM</code> <code class="term">(</code> <code>attribútumnév</code> <code class="term">)</code></p>
+					<p><code>aggregációs-függvény-avg</code> := <code class="term">AVG</code> <code class="term">(</code> <code>attribútumnév</code> <code class="term">)</code></p>
+				</div>
+			</div>
+		</div> <!-- container-fluid -->
+</body>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/handlebars-v3.0.0.js"></script>
+<script src="js/relalg_templates.js"></script>
+<script src="js/references.js"></script>
+</html>

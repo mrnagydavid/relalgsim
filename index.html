@@ -1,0 +1,175 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+	<link href="css/theme.css" rel="stylesheet" type="text/css"  />
+	<title>Relational Algebra Simulator</title>
+</head>
+<body>
+		<div id="loading" class="panel panel-info errormsg">
+			<div class="panel-heading"><h1></h1></div>
+			<div class="panel-body"><p>Loading every file to start working.</p><p>Please, wait for us.</p><img src="img/ajax-loader.gif" class="center-block" /></div>
+		</div>
+		<nav class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">RelAlgSim</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav en">
+						<li class="active"><a href="index.html" class="i18n-menu-home">Home</a></li>
+						<li><a href="reference.html" class="i18n-menu-reference">Reference</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="i18n-menu-settings">Settings</span> <span class="caret"></span></a>
+							<ul id="settings" class="dropdown-menu" role="menu">
+								<li><a class="settingsMode i18n-menu-stdrelalg" id="normal" href="#">Standard relational algebra </a></li>
+								<li><a class="settingsMode i18n-menu-extrelalg" id="extended" href="#">Extended relational algebra </a></li>
+								<li class="divider"></li>
+								<li><a class="settingsLang" id="en" href="#">English </a></li>
+								<li><a class="settingsLang" id="hu" href="#">Magyar </a></li>
+							</ul>
+						</li>
+						<li><a href="about.html" class="i18n-menu-about">About</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div><!--/.container -->
+		</nav>
+		<div class="container">
+			<div class="panel panel-primary">
+				<div class="panel-heading"><strong class="i18n-ui-srcrel">Source relations</strong> <button id="loadRelation" class="btn btn-xs btn-info pull-right" title="Load or manage relations"><span class=" glyphicon glyphicon-floppy-open"></span></button></div>
+				<div class="panel-body">
+					<div id="userDefinedRelations" class="row">
+						<div id="addRelation" class="col-lg-3 col-md-4 relation">
+							<div class="input-group">
+								<input type="text" id="relationnew_name" class="span form-control relationName" placeholder="Relation name" />
+								<span class="input-group-btn">
+									<button type="button" id="relationnew_add" class="btn btn-success btn-default relationButton" title="Add new relation"><strong>+</strong></button>
+								</span>
+							</div>
+							<textarea id="relationnew_data" class="form-control relationRaw" placeholder="Data table" rows="3"></textarea>
+						</div>
+					</div> <!-- userDefinedRelations -->
+				</div> <!-- panel-body -->
+			</div> <!-- panel panel-primary -->
+			
+			<hr/>
+			
+			<div id="userDefinedQuery" class="row">
+				<div id="queryBlock" class="col-lg-12 col-md-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><strong class="i18n-ui-relalgexp">Relational algebraic expression</strong></div>
+						<div class="panel-body">
+							<div id="queryToolbar" class="btn-toolbar visible-lg-block">
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default" id="tbProjection" title="Projection (PI)"><span class="relalgsymbol">&#x1D745;</span></button>
+									<button type="button" class="btn btn-default" id="tbSelection" title="Selection (SIGMA)"><span class="relalgsymbol">&#x1D748;</span></button>
+									<button type="button" class="btn btn-default" id="tbRename" title="Rename (RO)"><span class="relalgsymbol">&#x1D746;</span></button>
+									<button type="button" class="btn btn-default" id="tbDistinct" title="Distinct (DELTA)"><span class="relalgsymbol">&#x1D739;</span></button>
+									<button type="button" class="btn btn-default" id="tbSort" title="Sort (TAU)"><span class="relalgsymbol">&#x1D749;</span></button>
+									<button type="button" class="btn btn-default" id="tbAggregation" title="Aggregation (GAMMA)"><span class="relalgsymbol">&#x1D738;</span></button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default" id="tbThetajoin" title="Theta-join (THETA_JOIN)"><span class="relalgsymbol">&#x03F4;</span></button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default" id="tbCrossproduct" title="Crossproduct (×)">×</button>
+									<button type="button" class="btn btn-default" id="tbUnion" title="Union (+)"><span class="relalgsymbol">&#x22c3;</span></button>
+									<button type="button" class="btn btn-default" id="tbDifference" title="Difference (-)">\</button>
+									<button type="button" class="btn btn-default" id="tbIntersection" title="Intersection (*)"><span class="relalgsymbol">&#x22c2;</span></button>
+									<button type="button" class="btn btn-default" id="tbDivision" title="Division (÷)">÷</button>
+									<button type="button" class="btn btn-default" id="tbNaturaljoin" title="Natural join (@)"><span class="relalgsymbol">&#x22c8;</span></button>
+									<button type="button" class="btn btn-default" id="tbLeftsemijoin" title="Left semijoin ($@)"><span class="relalgsymbol">&#x22c9;</span></button>
+									<button type="button" class="btn btn-default" id="tbRightsemijoin" title="Right semijoin (@$)"><span class="relalgsymbol">&#x22ca;</span></button>
+									<button type="button" class="btn btn-default" id="tbAntijoin" title="Antijoin (!@)"><span class="relalgsymbol">&#x25b7;</span></button>
+									<button type="button" class="btn btn-default" id="tbLeftouterjoin" title="Left outer join (&@)"><span class="relalgsymbol">&#x27d5;</span></button>
+									<button type="button" class="btn btn-default" id="tbRightouterjoin" title="Right outer join (@&)"><span class="relalgsymbol">&#x27d6;</span></button>
+									<button type="button" class="btn btn-default" id="tbFullouterjoin" title="Full outer join (@@)"><span class="relalgsymbol">&#x27d7;</span></button>
+								</div>
+							</div>
+							<textarea id="queryCommand" class="form-control" placeholder="Relational algebraic expression"></textarea>
+							<button type="button" id="startQuery" class="btn btn-success btn-default col-lg-12 col-md-12">Go!</button>
+						</div>
+					</div>
+				</div>
+				
+			</div> <!-- userDefinedQuery -->
+			
+			<hr/>
+
+			<div id="extras" class="row">
+				<!--<div id="helpBlock" class="col-lg-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><strong>Súgó a parancsokhoz</strong></div>
+						<div class="panel-body">
+							<p> 
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dui lorem, iaculis in nisl id, posuere porta lorem. Donec libero eros, condimentum nec pellentesque sit amet, maximus et neque. Maecenas viverra nunc ut diam efficitur laoreet. Nullam consectetur quis odio cursus mattis. Sed cursus ut mauris a rhoncus. Nulla semper dignissim lorem sit amet aliquet. Cras non imperdiet eros, et fermentum nibh.
+	Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec erat lectus, imperdiet nec sapien vitae, tincidunt molestie lacus. Morbi mollis elit bibendum ante tempor, vitae fermentum justo tincidunt. Etiam tellus mi, pretium a dolor venenatis, eleifend elementum nulla. Nullam viverra, erat quis efficitur pretium, neque mauris mattis ante, quis feugiat neque turpis sed urna. Suspendisse potenti. Nulla ultricies aliquet pretium.
+	Nulla dictum, ligula sed hendrerit volutpat, sem sem dictum mi, vitae vulputate mi tortor eget nulla. Quisque ut mi lacinia risus dictum malesuada. Aenean eu condimentum urna, ac tincidunt mi. Phasellus blandit posuere nisl id blandit. Sed nec volutpat mi. Integer auctor nibh vitae libero dictum pretium. Donec consequat magna sit amet mi placerat, in imperdiet orci cursus. Morbi sed libero sit amet tortor malesuada congue. Proin suscipit vitae nisl id sagittis. Fusce vitae convallis ante. Nunc at dictum magna, in dapibus arcu. Nulla facilisi. Mauris hendrerit at risus id mollis. Vivamus magna ipsum, dignissim sed tellus quis, semper facilisis enim. Donec semper lacinia posuere. Etiam eleifend orci ut enim gravida convallis.
+							</p>
+						</div>
+					</div>
+				</div>/-->
+				<div id="resultBlock" class="col-lg-6">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><strong class="i18n-ui-resrel">Result relation</strong> <button id="addResultRelation" class="btn btn-xs btn-success pull-right" title="Add result as a source relation">+</button></div>
+						<div class="panel-body">
+							<div id="relation0" class="col-lg-6 relation relationBlock">
+								<div id="relation0_data" class="relationData">
+									<table id="relation0_table" class="table table-hover relationTable"></table>
+									<textarea id="relation0_raw" class="form-control relationRaw" placeholder="Data table" rows="3" data-delim=";"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="treeBlock" class="col-lg-6 visible-lg-block">
+					<div class="panel panel-primary">
+						<div class="panel-heading"><strong class="i18n-ui-qrytree">Query-tree</strong></div>
+						<div class="panel-body">
+							<div id="processingjs"></div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div> <!-- container -->
+		<div id="errorContainer"></div>
+		<div id="manageRelationsContainer"></div>
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/jquery-ui-effects-core.min.js"></script>
+	<script src="js/jquery-cookie.js"></script>
+	<script src="js/jquery.selection.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/handlebars-v3.0.0.js"></script>
+	<script src="js/processing.min.js"></script>
+	<script src="js/relalg_common.js"></script>
+	<script src="js/relalg_exceptions.js"></script>
+	<script src="js/relalg_i18n.js"></script>
+	<script src="js/relalg_templates.js"></script>
+	<script src="js/relalg_attributes.js"></script>
+	<script src="js/relalg_symbolmanager.js"></script>
+	<script src="js/relalg_relationsmanager.js"></script>
+	<script src="js/relalg_operations.js"></script>
+	<script src="js/relalg_commandmanager.js"></script>
+	<script src="js/relalg_querymanager.js"></script>
+	<script src="js/relalg_parser.js"></script>
+	<script src="js/relalg_treeviewer.js"></script>
+	<script src="js/relalg_loadsaverelations.js"></script>
+	<script src="js/relalg_ui.js"></script>
+	<script>
+var errmsg = [];
+if (typeof __RELALG_UIMANAGER === 'undefined') {
+	alert("Could not load the UI Manager. The page is useless without it. We are sorry!");
+}
+	</script>
+</body>
+</html>

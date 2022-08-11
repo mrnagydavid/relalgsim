@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE translations
+[
+<!ELEMENT translations (translation)*>
+<!ELEMENT translation (en, hu)>
+<!ATTLIST translation
+	id		CDATA	#REQUIRED
+	type	CDATA	#REQUIRED
+	dstn	CDATA	#REQUIRED
+>
+<!ELEMENT en (#PCDATA | span)*>
+<!ELEMENT hu (#PCDATA | span)*>
+<!ELEMENT span (#PCDATA)>
+<!ATTLIST span
+	class	CDATA	#IMPLIED
+>
+]>
+<translations>
+    <translation id="i18n-menu-home" type="class" dstn="html">
+        <en>Home</en>
+        <hu>Kezdőlap</hu>
+    </translation>
+    <translation id="i18n-menu-reference" type="class" dstn="html">
+        <en>Reference</en>
+        <hu>Kézikönyv</hu>
+    </translation>
+    <translation id="i18n-menu-reference" type="class" dstn="href">
+        <en>reference.html</en>
+        <hu>reference.hu.html</hu>
+    </translation>
+    <translation id="i18n-menu-settings" type="class" dstn="html">
+        <en>Settings</en>
+        <hu>Beállítások</hu>
+    </translation>
+    <translation id="i18n-menu-stdrelalg" type="class" dstn="html">
+        <en>Standard relational algebra </en>
+        <hu>Standard relációs algebra </hu>
+    </translation>
+    <translation id="i18n-menu-extrelalg" type="class" dstn="html">
+        <en>Extended relational algebra </en>
+        <hu>Kiterjesztett relációs algebra </hu>
+    </translation>
+    <translation id="i18n-menu-about" type="class" dstn="html">
+        <en>About</en>
+        <hu>Bemutatkozás</hu>
+    </translation>
+    <translation id="i18n-menu-about" type="class" dstn="href">
+        <en>about.html</en>
+        <hu>about.hu.html</hu>
+    </translation>
+    <translation id="i18n-ui-srcrel" type="class" dstn="html">
+        <en>Source relations</en>
+        <hu>Forrástáblák</hu>
+    </translation>
+	<translation id="loadRelation" type="id" dstn="title">
+		<en>Load or manage relations</en>
+        <hu>Relációk betöltése, kezelése</hu>
+	</translation>
+	<translation id="deleteRelation" type="class" dstn="title">
+		<en>Delete this relation</en>
+        <hu>Reláció törlése</hu>
+	</translation>
+	<translation id="saveRelation" type="class" dstn="title">
+		<en>Save this relation</en>
+        <hu>Reláció mentése</hu>
+	</translation>
+    <translation id="i18n-ui-relalgexp" type="class" dstn="html">
+        <en>Relational algebraic expression</en>
+        <hu>Relációs algebrai kifejezés</hu>
+    </translation>
+    <translation id="i18n-ui-resrel" type="class" dstn="html">
+        <en>Result relation</en>
+        <hu>Eredményreláció</hu>
+    </translation>
+    <translation id="i18n-ui-qrytree" type="class" dstn="html">
+        <en>Query tree</en>
+        <hu>Lekérdezésfa</hu>
+    </translation>
+	<translation id="relationnew_add" type="id" dstn="title">
+        <en>Add new relation</en>
+        <hu>Reláció rögzítése</hu>
+    </translation>
+	<translation id="relationName" type="class" dstn="placeholder">
+        <en>Relation name</en>
+        <hu>Táblanév</hu>
+    </translation>
+	<translation id="relationRaw" type="class" dstn="placeholder">
+        <en>Data table</en>
+        <hu>Adattábla</hu>
+    </translation>
+	<translation id="queryCommand" type="id" dstn="placeholder">
+        <en>Relational algebraic expression</en>
+        <hu>Relációs algebrai kifejezés</hu>
+    </translation>
+	<translation id="addResultRelation" type="id" dstn="title">
+        <en>Add result as a source relation</en>
+        <hu>Az eredmény rögzítése forrástáblaként</hu>
+    </translation>
+	<translation id="tbProjection" type="id" dstn="title">
+		<en>Projection (PI)</en>
+		<hu>Projekció (PI)</hu>
+	</translation>
+	<translation id="tbSelection" type="id" dstn="title">
+		<en>Selection (SIGMA)</en>
+		<hu>Szelekció (SIGMA)</hu>
+	</translation>
+	<translation id="tbRename" type="id" dstn="title">
+		<en>Rename relation, attribute (RO)</en>
+		<hu>Reláció, attribútum átnevezése (RO)</hu>
+	</translation>
+	<translation id="tbDistinct" type="id" dstn="title">
+		<en>Distinct (DELTA)</en>
+		<hu>Egyedi sorok (DELTA)</hu>
+	</translation>
+	<translation id="tbSort" type="id" dstn="title">
+		<en>Sort (TAU)</en>
+		<hu>Rendezés (TAU)</hu>
+	</translation>
+	<translation id="tbAggregation" type="id" dstn="title">
+		<en>Aggregation (GAMMA)</en>
+		<hu>Aggregáció (GAMMA)</hu>
+	</translation>
+	<translation id="tbThetajoin" type="id" dstn="title">
+		<en>Theta-join (THETA_JOIN)</en>
+		<hu>Théta-join (THETA_JOIN)</hu>
+	</translation>
+	<translation id="tbCrossproduct" type="id" dstn="title">
+		<en>Crossproduct (×)</en>
+		<hu>Keresztszorzat (×)</hu>
+	</translation>
+	<translation id="tbUnion" type="id" dstn="title">
+		<en>Union (+)</en>
+		<hu>Unió (+)</hu>
+	</translation>
+	<translation id="tbDifference" type="id" dstn="title">
+		<en>Difference (-)</en>
+		<hu>Különbslg (-)</hu>
+	</translation>
+	<translation id="tbIntersection" type="id" dstn="title">
+		<en>Intersection (*)</en>
+		<hu>Metszet (*)</hu>
+	</translation>
+	<translation id="tbDivision" type="id" dstn="title">
+		<en>Division (÷)</en>
+		<hu>Osztás (÷)</hu>
+	</translation>
+	<translation id="tbNaturaljoin" type="id" dstn="title">
+		<en>Natural join (@)</en>
+		<hu>Természetes összekapcsolás (@)</hu>
+	</translation>
+	<translation id="tbLeftsemijoin" type="id" dstn="title">
+		<en>Left semijoin ($@)</en>
+		<hu>Bal féligösszekapcsolás ($@)</hu>
+	</translation>
+	<translation id="tbRightsemijoin" type="id" dstn="title">
+		<en>Right semijoin (@$)</en>
+		<hu>Jobb féligösszekapcsolás (@$)</hu>
+	</translation>
+	<translation id="tbAntijoin" type="id" dstn="title">
+		<en>Antijoin (!@)</en>
+		<hu>Antiösszekapcsolás (!@)</hu>
+	</translation>
+	<translation id="tbLeftouterjoin" type="id" dstn="title">
+		<en>Left outer join (&amp;@)</en>
+		<hu>Bal külső összekapcsolás (&amp;@)</hu>
+	</translation>
+	<translation id="tbRightouterjoin" type="id" dstn="title">
+		<en>Right outer join (@&amp;)</en>
+		<hu>Jobb külső összekapcsolás (@&amp;)</hu>
+	</translation>
+	<translation id="tbFullouterjoin" type="id" dstn="title">
+		<en>Full outer join (@@)</en>
+		<hu>Teljes külső összekapcsolás (@@)</hu>
+	</translation>
+</translations>

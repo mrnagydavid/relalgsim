@@ -1,0 +1,375 @@
+﻿/~	
+
+~/
+
+/~ teszteset
+	PI1×PI(a,b,c;SI(a=b&&c=d||e==f;RO1×RO2))÷RO(a/b;T1)×RO(T2;T1)
+~/
+
+/~ --- Helper functions --- ~/
+[*
+	var _version = "3.1.1";
+	var _id = 0;
+	
+	function getId() {
+		return "_X" + (_id++);
+	}
+	
+	function newBinary(cmd, r1, r2) {
+		var result = {};
+		result["name"] = getId();
+		result["source"] = {};
+		var source = result["source"];
+		source["cmd"] = cmd;
+		source["relations"] = [r1, r2];
+		r1["parent"] = result;
+		r2["parent"] = result;
+		return result;
+	}
+	
+	function newUnary(cmd, r1, paramName, paramValue) {
+		var result = {};
+		result["name"] = getId();
+		result["source"] = {};
+		var source = result["source"];
+		source["cmd"] = cmd;
+		source["relation"] = r1;
+		if (paramName !== undefined) {
+			source[paramName] = paramValue;
+		}
+		r1["parent"] = result;
+		return result;
+	}
+*]
+
+/~ Characters to be ignored ~/
+!   ' |\t'
+	;
+
+
+/~ Alaptokenek - nem-asszociatív ~/
+	'PI'							PI
+	'SIGMA'							SIGMA
+	'RO'							RO
+	'TJ'							THETA_JOIN
+	'DELTA'							DELTA
+	'TAU'							TAU
+	'GAMMA'							GAMMA
+	'AVG'							AVG
+	'COUNT'							COUNT
+	'SUM'							SUM
+	'MIN'							MIN
+	'MAX'							MAX
+	'[A-Za-z][A-Za-z0-9_]*'			NAME
+	'"[^"]*"'						STRING
+	'[0-9]+\.[0-9]+'				REAL
+	'[0-9]+'						INTEGER
+	';'								SEMICOLON
+	','								COMMA
+	'\.'							PERIOD
+	'\->'							ARROW
+	;
+	
+/~ Relációs muveletek ~/
+<	'\×'							CROSSPRODUCT
+	'÷'								DIVISION
+	'@'								NATURAL_JOIN
+	'$@'							SEMI_JOIN
+	'!@'							ANTI_JOIN
+	'&@'							LEFT_OUTER_JOIN
+	'@&'							RIGHT_OUTER_JOIN
+	'@@'							FULL_OUTER_JOIN
+	;
+
+/~ Logikai-matematikai muveletek - bal-asszociatív ~/
+<	'&&'							DBL_AMPS
+	'\|\|'							DBL_VBAR
+	;
+<	'<='							LESS_THAN_OR_EQUALS
+	'>='							GREATER_THAN_OR_EQUALS
+	'='								EQUALS
+	'<'								LESS_THAN
+	'>'								GREATER_THAN
+	;
+<	'\+'							PLUS
+	'\-'							MINUS
+	;
+<	'\*'							ASTERISK
+	'\/'							SLASH
+	;
+>	'!'								NEGATION
+    '\('							PARENTHESIS_OPEN
+    '\)'							PARENTHESIS_CLOSE
+	;
+
+
+##
+
+
+/~ --- Grammar specification --- ~/
+
+query:			
+				relation								[* 
+															parsingResult = %1;
+														*]
+				;
+
+relation:		
+				relation PLUS relation					&CROSSPRODUCT	[*		
+																			%% = newBinary("UNION", %1, %3);
+																		*]
+				| relation CROSSPRODUCT relation		&CROSSPRODUCT	[*		
+																			%% = newBinary("CROSSPRODUCT", %1, %3);
+																		*]
+				| relation MINUS relation				&CROSSPRODUCT	[*		
+																			%% = newBinary("DIFFERENCE", %1, %3);
+																		*]
+				| relation ASTERISK relation			&CROSSPRODUCT	[*		
+																			%% = newBinary("INTERSECTION", %1, %3);
+																		*]
+				| relation DIVISION relation			&CROSSPRODUCT	[*		
+																			%% = newBinary("DIVISION", %1, %3);
+																		*]
+				| relation NATURAL_JOIN relation		&CROSSPRODUCT	[*		
+																			%% = newBinary("NATURAL_JOIN", %1, %3);
+																		*]
+				| relation SEMI_JOIN relation			&CROSSPRODUCT	[*		
+																			%% = newBinary("SEMI_JOIN", %1, %3);
+																		*]
+				| relation ANTI_JOIN relation			&CROSSPRODUCT	[*		
+																			%% = newBinary("ANTI_JOIN", %1, %3);
+																		*]
+				| relation LEFT_OUTER_JOIN relation		&CROSSPRODUCT	[*		
+																			%% = newBinary("LEFT_OUTER_JOIN", %1, %3);
+																		*]
+				| relation RIGHT_OUTER_JOIN relation	&CROSSPRODUCT	[*		
+																			%% = newBinary("RIGHT_OUTER_JOIN", %1, %3);
+																		*]
+				| relation FULL_OUTER_JOIN relation		&CROSSPRODUCT	[*		
+																			%% = newBinary("FULL_OUTER_JOIN", %1, %3);
+																		*]
+				
+				
+				| PI PARENTHESIS_OPEN extrended_attribute_list SEMICOLON relation PARENTHESIS_CLOSE	[*		
+																										%% = newUnary("PROJECTION", %5, "parameters", %3);
+																									*]
+				| GAMMA PARENTHESIS_OPEN extrended_attribute_list SEMICOLON relation PARENTHESIS_CLOSE [*		
+																										%% = newUnary("GROUPBY", %5, "parameters", %3);
+																									*]
+				| SIGMA PARENTHESIS_OPEN conditional SEMICOLON relation PARENTHESIS_CLOSE			[*		
+																										%% = newUnary("SELECTION", %5, "parameters", %3);
+																									*]
+				| THETA_JOIN PARENTHESIS_OPEN conditional SEMICOLON relation PARENTHESIS_CLOSE		[*		
+																										%% = newUnary("THETA_JOIN", %5, "parameters", %3);
+																									*]
+				| RO PARENTHESIS_OPEN rename_list SEMICOLON relation PARENTHESIS_CLOSE				[*		
+																										%% = newUnary("RENAME_ATTRIBUTES", %5, "parameters", %3);
+																									*]
+				| TAU PARENTHESIS_OPEN attribute_list SEMICOLON relation PARENTHESIS_CLOSE			[*		
+																										%% = newUnary("SORT", %5, "parameters", %3);
+																									*]
+				| RO PARENTHESIS_OPEN NAME SEMICOLON relation PARENTHESIS_CLOSE						[*		
+																										%% = newUnary("RENAME_RELATION", %5, "parameter", %3);
+																									*]
+				| DELTA PARENTHESIS_OPEN relation PARENTHESIS_CLOSE									[*		
+																										%% = newUnary("DISTINCT", %5);
+																									*]
+				| NAME																				[* 
+																										%% = newUnary("ALIAS", %1);
+																									*]
+				;
+
+number:
+				INTEGER
+				| REAL
+				| MINUS INTEGER		/~	a "-5"	kezelésére ~/	[* %% = %1 + %2 *]
+				| MINUS REAL		/~	a "-5"	kezelésére ~/	[* %% = %1 + %2 *]
+				;
+				
+attribute:
+				NAME PERIOD NAME								[* 	
+																	%% = {};
+																	%%["name"] = %1+%2+%3;
+																	%%["esc"]  = "%" + %1+%2+%3 + "%";
+																	%%["cols"] = [%1+%2+%3];
+																*]
+				| NAME											[* 	
+																	%% = {};
+																	%%["name"] = %1;
+																	%%["esc"]  = "%" + %1 + "%";
+																	%%["cols"] = [%1];
+																*]
+				;
+
+attribute_list:
+				attribute										[*	
+																	%% = {};
+																	%%[%1.name] = %1;
+																*]
+				| attribute_list COMMA attribute				[* 
+																	%% = %1;
+																	%%[%3.name] = %3;
+																*]
+				;
+
+literal:
+				attribute										
+				| number										[*	
+																	%% = {};
+																	%%["esc"] = %1;
+																	%%["cols"] = [];
+																*]
+				| STRING										[*	
+																	%% = {};
+																	%%["esc"] = %1;
+																	%%["cols"] = [];
+																*]
+				;
+
+literal_calculation:
+				literal															
+				| PARENTHESIS_OPEN literal_calculation PARENTHESIS_CLOSE		[* 
+																					%% = %2;
+																					%%["esc"] = %1 + %1.esc + %3;
+																				*]
+				| literal_calculation PLUS literal_calculation					[* 
+																					%% = {};
+																					%%["esc"] = %1.esc + %2 + %3.esc;
+																					%%["cols"] = %1.cols.concat(%3.cols);
+																				*]
+				| literal_calculation MINUS literal_calculation					[* 
+																					%% = {};
+																					%%["esc"] = %1.esc + %2 + %3.esc;
+																					%%["cols"] = %1.cols.concat(%3.cols);
+																				*]
+				| literal_calculation ASTERISK literal_calculation				[* 
+																					%% = {};
+																					%%["esc"] = %1.esc + %2 + %3.esc;
+																					%%["cols"] = %1.cols.concat(%3.cols);
+																				*]
+				| literal_calculation SLASH literal_calculation					[* 
+																					%% = {};
+																					%%["esc"] = %1.esc + %2 + %3.esc;
+																					%%["cols"] = %1.cols.concat(%3.cols);
+																				*]
+				;
+
+extended_attribute:
+				literal_calculation											[*
+																				%% = {};
+																				%%["name"] = %1.esc.match(/[A-Za-z0-9_]*/g).join('');
+																				%%["esc"] = %1.esc;
+																				%%["cols"] = %1.cols;
+																			*]
+				| group_operation											[*
+																				%% = {};
+																				%%[%1.name] = %1;
+																			*]
+				| extended_attribute ARROW NAME								[* 
+																				%% = %1; 
+																				%%["originalName"] = %%.name;
+																				%%.name = %3;
+																			*]
+				;
+				
+extrended_attribute_list:
+				extended_attribute											[* 	
+																				%% = {}; 
+																				%%[%1.name] = %1;
+																			*]
+				| extrended_attribute_list COMMA extended_attribute			[* 	
+																				%% = %1;
+																				%%[%3.name] = %3;
+																			*]
+				;
+
+
+group_operation:
+				AVG	PARENTHESIS_OPEN attribute PARENTHESIS_CLOSE			[*	
+																				%% = {};
+																				%%["name"] = %1+%2+%3.name+%4;
+																				%%["esc"] = %1+%2+%3.esc+%4;
+																				%%["cols"] = %3.cols;
+																			*]
+				| COUNT PARENTHESIS_OPEN attribute PARENTHESIS_CLOSE		[*	
+																				%% = {};
+																				%%["name"] = %1+%2+%3.name+%4;
+																				%%["esc"] = %1+%2+%3.esc+%4;
+																				%%["cols"] = %3.cols;
+																			*]
+				| SUM PARENTHESIS_OPEN attribute PARENTHESIS_CLOSE			[*	
+																				%% = {};
+																				%%["name"] = %1+%2+%3.name+%4;
+																				%%["esc"] = %1+%2+%3.esc+%4;
+																				%%["cols"] = %3.cols;
+																			*]
+				| MIN PARENTHESIS_OPEN attribute PARENTHESIS_CLOSE			[*	
+																				%% = {};
+																				%%["name"] = %1+%2+%3.name+%4;
+																				%%["esc"] = %1+%2+%3.esc+%4;
+																				%%["cols"] = %3.cols;
+																			*]
+				| MAX PARENTHESIS_OPEN attribute PARENTHESIS_CLOSE			[*	
+																				%% = {};
+																				%%["name"] = %1+%2+%3.name+%4;
+																				%%["esc"] = %1+%2+%3.esc+%4;
+																				%%["cols"] = %3.cols;
+																			*]
+				;
+
+rename_list:
+				attribute SLASH attribute 									[* 
+																				%% = {}; 
+																				%%[%1.cols[0]] = %3.cols[0];
+																			*]
+				| rename_list COMMA attribute SLASH attribute 				[* 
+																				%% = %1;
+																				%%[%3.cols[0]] = %5.cols[0];
+																			*]
+				;
+
+conditional:
+			NEGATION conditional														[* 
+																							%% = %2;
+																							%%[esc] = %1 + %1.esc;
+																						*]
+			| PARENTHESIS_OPEN conditional PARENTHESIS_CLOSE							[* 
+																							%% = %2;
+																							%%[esc] = %1 + %1.esc + %3;
+																						*]
+			| conditional DBL_AMPS conditional											[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			| conditional DBL_VBAR conditional											[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			| extended_attribute EQUALS extended_attribute								[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			| extended_attribute LESS_THAN extended_attribute							[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			| extended_attribute GREATER_THAN extended_attribute						[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			| extended_attribute LESS_THAN_OR_EQUALS extended_attribute					[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			| extended_attribute GREATER_THAN_OR_EQUALS extended_attribute				[* 
+																							%% = {};
+																							%%[esc] = %1.esc + %2 + %3.esc;
+																							%%[cols] = %1.cols.concat(%3);
+																						*]
+			;
